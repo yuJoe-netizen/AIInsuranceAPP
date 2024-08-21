@@ -1,1 +1,1 @@
-# AIInsuranceAPP
+# ai_assistant
