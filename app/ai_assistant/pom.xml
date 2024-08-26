@@ -11,6 +11,12 @@
 	<groupId>com.example</groupId>
 	<artifactId>ai_assistant</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>base</module>
+		<module>common</module>
+		<module>api</module>
+	</modules>
 	<name>ai_assistant</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
