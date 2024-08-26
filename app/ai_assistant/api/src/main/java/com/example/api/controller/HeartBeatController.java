@@ -1,4 +1,4 @@
-package com.example.ai_assistant.controller;
+package com.example.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class IndexController {
+public class HeartBeatController {
     
+
     @Autowired
     private ServerProperties serverProperties;
 
