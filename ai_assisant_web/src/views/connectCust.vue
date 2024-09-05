@@ -1,131 +1,281 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import defaultAvatar from '../assets/default_receiver_avatar.jpg'
-import defaultSendAvatar from '../assets/default_sender_avatar.jpg'
+import userAvatar from '../assets/user.png'
+import kefu from '../assets/kefu.png'
 import phone from '../assets/phone.png'
+import rebot from '../assets/rebot.png'
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  const ws = new WebSocket('ws://localhost:8891/call')
+  ws.onopen = function () {
+    console.log('ws链接成功')
+  }
+  ws.onerror = function (e) {
+    console.log('发生了错误')
+    console.log(e)
+  }
+  ws.onmessage = function (e) {
+    console.log('接收到消息')
+    console.log(e)
+  }
+  // if (this.$ws) {
+  //   this.$ws.onopen(() => {
+  //     console.log('WebSocket 连接已打开');
+  //   });
+
+  //   this.$ws.onmessage((message) => {
+  //     console.log('接收到消息：', message.data);
+  //   });
+
+  //   this.$ws.onerror((error) => {
+  //     console.error('WebSocket 错误：', error);
+  //   });
+
+  //   this.$ws.onclose(() => {
+  //     console.log('WebSocket 连接已关闭');
+  //   });
+  // }
+})
 </script>
 <template>
-    <div class="chat-window">
-    <div class="chat-header">
-      <img :src="phone">
-    </div>
-    <div class="chat-messages">
-      <div class="message received-message">
-        <img :src="defaultAvatar" alt="接收者头像">
-        <div class="message-boarder-send">
-          <div class="message-text">你好，今天过得怎么样？</div>
+  <div class="page-body">
+    <div>
+      <div class="chat-window">
+        <div class="chat-header">
+          <img :src="phone" />
+        </div>
+        <div class="chat-messages">
+          <div class="message received-message">
+            <img :src="userAvatar" alt="接收者头像" />
+            <div class="message-boarder-send">
+              <div class="message-text">你好，今天过得怎么样？</div>
+            </div>
+          </div>
+          <div class="message sent-message">
+            <div class="message-boarder-rece">
+              <div class="message-text">还不错，你呢？</div>
+            </div>
+
+            <img :src="kefu" alt="发送者头像" />
+          </div>
         </div>
       </div>
-      <div class="message sent-message">
-        <div class="message-boarder-rece">
-          <div class="message-text">还不错，你呢？</div>
-        </div>
-        
-        <img :src="defaultSendAvatar" alt="发送者头像">
-      </div>
-      <!-- 更多消息 -->
     </div>
-    <!-- <div class="chat-input">
-      <input type="text" placeholder="输入消息...">
-      <button>发送</button>
-    </div> -->
+    <div class="ai">
+      <div class="chat-window">
+        <div class="ai-header">
+          <p1 style="font-size: 25px;">AI助理</p1>
+        </div>
+        <div class="user-question">
+          <img :src="userAvatar" alt="接收者头像" class="ai-user-avatar" />
+          <div><span style="">客户问题点：</span><span style="font-size: 20px;font-weight: 700;color:#00877f">证据</span></div>
+        </div>
+        <div class="ai-create-header">
+          <img :src="rebot">
+            <p><span style="font-weight: 700;">AI 为您推荐一下三种话术</span></p>
+        </div>
+        <div class="ai-create-content1">
+          <div class="content1-header">
+            强调高风险账号逾期后果:移交总部监管并追责
+          </div>
+          <div class="content1-body">
+            一旦标识为高风险账户，意味着您的案件会由总部直接运营直接监管，稍后也会召开线上风控会议，出具一份详细的“快递追责名单“，对于剩余本金大的或者还款期数段的都会同步更新至其他。
+          </div>
+          <div class="content1-law">
+              <div class="law-name">
+                《民法通则》第84条
+              </div>
+              <div class="law-content">
+                债权人有权要求债务人按照合同约定或者依照法律的规定履行义务
+              </div>
+          </div>
+        </div>
+
+        <div class="ai-create-content2">
+          <div class="content2-header">
+            强调高风险账号逾期后果:移交总部监管并追责
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style lang="css">
- .chat-window {
-      width: 400px;
-      height: 600px;
-      margin: 0 auto;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      overflow: hidden;
-    }
+.chat-window {
+  width: 400px;
+  height: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
 
-  .chat-header {
-      background-color: #4285f4;
-      color: black;
-      padding: 10px;
-      justify-content: flex-end;
-      display: flex;
-    }
+.chat-header {
+  background-color: #4285f4;
+  color: black;
+  padding: 10px;
+  justify-content: flex-end;
+  display: flex;
+}
 
-  .chat-header img {
-      margin: 0;
-      width: 12%;
-    }
+.ai-header {
+  background-color: #919295;
+  color: #fffdfd;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
 
-  .chat-messages {
-      height: 480px;
-      padding: 10px;
-      overflow-y: scroll;
-      background-color: beige;
-    }
 
-  .message {
-      margin-bottom: 10px;
-      display: flex;
-    }
 
-  .sent-message {
-      justify-content: flex-end;
-    }
+.chat-header img {
+  margin: 0;
+  width: 12%;
+}
 
-  .received-message {
-      justify-content: flex-start;
-    }
+.chat-messages {
+  height: 100%;
+  padding: 10px;
+  overflow-y: scroll;
+  background-color: beige;
+}
 
-  .message img {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
+.message {
+  margin-bottom: 10px;
+  display: flex;
+}
 
-  .message-text {
-      padding: 10px;
-      border-radius: 5px;
-      color: #000;
-    }
-  .message-boarder-rece{
-    border: 1px red;
-    background-color: cornflowerblue;
-    border-radius: 10px;
-  }
-  .message-boarder-send{
-    border: 1px red;
-    background-color: #fff;
-    border-radius: 10px;
-  }
-  .sent-message.message-text {
-      background-color: #dcf8c6;
-      color: #000;
-    }
+.sent-message {
+  justify-content: flex-end;
+}
 
-  .received-message.message-text {
-      background-color: #87CEEB; 
-      color: #000;
-    }
+.received-message {
+  justify-content: flex-start;
+}
 
-  .chat-input {
-      padding: 10px;
-      background-color: #f1f1f1;
-    }
+.message img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
 
-  .chat-input input {
-      width: 80%;
-      padding: 5px;
-      border: none;
-      border-radius: 5px;
-    }
+.message-text {
+  padding: 10px;
+  border-radius: 5px;
+  color: #000;
+}
+.message-boarder-rece {
+  border: 1px red;
+  background-color: cornflowerblue;
+  border-radius: 10px;
+}
+.message-boarder-send {
+  border: 1px red;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.sent-message.message-text {
+  background-color: #dcf8c6;
+  color: #000;
+}
 
-  .chat-input button {
-      width: 15%;
-      padding: 5px 10px;
-      background-color: #4285f4;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+.received-message.message-text {
+  background-color: #87ceeb;
+  color: #000;
+}
+
+.chat-input {
+  padding: 10px;
+  background-color: #f1f1f1;
+}
+
+.chat-input input {
+  width: 80%;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+}
+
+.chat-input button {
+  width: 15%;
+  padding: 5px 10px;
+  background-color: #4285f4;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.page-body{
+  display: flex;
+  flex-direction: row;
+}
+.ai{
+  margin-left: 200px;
+}
+.user-question{
+  width: 100%;
+  height: 60px;
+  background-color: #87ceeb;
+  color: #000;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+}
+.ai-user-avatar{
+  height: 35px;
+}
+.ai-create-header{
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ai-create-header img{
+  height: 20px;
+}
+.ai-create-content1{
+  width: 100%;
+  background-color: lightgoldenrodyellow;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.ai-create-content1 .content1-header{
+  font-weight: 600;
+  color: #87a8eb;
+}
+.ai-create-content1 .content1-law{
+  width: 95%;
+  /* height: 60px; */
+  border: 1px solid red;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.ai-create-content1 .content1-law .law-name{
+  background-color: red;
+  color: #ccc;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.ai-create-content1 .content1-law .law-name .law-content{
+  padding: 10px 10px 10px 10px;
+}
+
+.ai-create-content2{
+  width: 100%;
+  background-color: antiquewhite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 </style>
+
