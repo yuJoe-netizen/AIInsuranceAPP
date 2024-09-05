@@ -1,21 +1,22 @@
 package com.example.api.config;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.lang.TypeReference;
+import cn.hutool.json.JSONUtil;
+import com.example.api.model.CallMessage;
+import com.example.common.WebSocketSession;
+import com.example.common.enums.MessageRoleEnum;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.net.http.WebSocket;
+import java.io.*;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * @program: tools
- * @Description： 通过这个类进行连接WebSocket的，默认发信息就进入onMessage解析
- */
 @Component
 @ServerEndpoint(value = "/call")
 @Slf4j
@@ -27,7 +28,7 @@ public class WebSocketUtil {
     /**
      * user 线程安全的
      */
-    private static final Map<String, WebSocket> userMap = new ConcurrentHashMap<String, WebSocket>();
+    private static final Map<String, WebSocketSession> userMap = new ConcurrentHashMap<>();
 
     /**
      * @Description: 收到消息触发事件，这个消息是连接人发送的消息
@@ -65,28 +66,42 @@ public class WebSocketUtil {
      **/
     @OnOpen
     public void onOpen(Session session) {
-//        WebSocket webSocket = new WebSocket();
-//        webSocket.setUserId(userId);
-//        webSocket.setSession(session);
-//        boolean containsKey = userMap.containsKey(userId);
-//        if (!containsKey) {
-//            // 添加登录用户数量
-//            addLoginCount();
-//            userMap.put(userId, webSocket);
-//        }
-//        log.info("打开连接触发事件!已连接用户: " + userId);
-//        log.info("当前在线人数: " + loginCount);
-        System.out.println("新连接");
-        session.getAsyncRemote().sendText("接收到你的链接");
-    }
+        Map<String, List<String>> requestParameterMap = session.getRequestParameterMap();
+        String userId = requestParameterMap.get("userId").get(0);
+        WebSocketSession webSocketSession = new WebSocketSession();
 
+        webSocketSession.setRole(MessageRoleEnum.CUSTOMER.getCode());
+        webSocketSession.setUserId(userId);
+        webSocketSession.setSession(session);
+        boolean containsKey = userMap.containsKey(userId);
+        if (!containsKey) {
+            // 添加登录用户数量
+            addLoginCount();
+            userMap.put(userId, webSocketSession);
+        }
+        session.getAsyncRemote().sendText("接收到你的链接");
+        try(InputStream ins =this.getClass().getClassLoader().getResourceAsStream("callmes.json");
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(ins);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bufferedInputStream));
+        ) {
+            String json = IoUtil.read(reader);
+            List<CallMessage> callMessageList = JSONUtil.toBean(json, new TypeReference<List<CallMessage>>() {}, true);
+
+            for (CallMessage callMessage : callMessageList) {
+                session.getAsyncRemote().sendText(JSONUtil.toJsonStr(callMessage));
+                Thread.sleep(1000);
+            }
+        }catch (Exception e){
+            log.info("e:",e);
+        }
+    }
     /**
      * @Description: 关闭连接触发事件
      * @Param [session, closeReason]
      * @Return: void
      **/
     @OnClose
-    public void onClose(@PathParam("userId") String userId, Session session, CloseReason closeReason) {
+    public void onClose( Session session, CloseReason closeReason) {
 //        boolean containsKey = userMap.containsKey(userId);
 //        if (containsKey) {
 //            // 删除map中用户
@@ -96,7 +111,7 @@ public class WebSocketUtil {
 //        }
 //        log.info("关闭连接触发事件!已断开用户: " + userId);
 //        log.info("当前在线人数: " + loginCount);
-        System.out.println("关闭链接");
+//        System.out.println("关闭链接");
 
     }
 
@@ -116,11 +131,11 @@ public class WebSocketUtil {
      * @Return: void
      **/
     public void sendMessageTo(String message, String userId) throws IOException {
-//        for (WebSocket user : userMap.values()) {
-//            if (user.getUserId().equals(userId)) {
-//                user.getSession().getAsyncRemote().sendText(message);
-//            }
-//        }
+        for (WebSocketSession user : userMap.values()) {
+            if (user.getUserId().equals(userId)) {
+                user.getSession().getAsyncRemote().sendText(message);
+            }
+        }
     }
 
     /**
@@ -157,7 +172,7 @@ public class WebSocketUtil {
      * @Param []
      * @Return: java.util.Map<java.lang.String, com.cn.webSocket.WebSocket>
      **/
-    public synchronized Map<String, WebSocket> getUsers() {
+    public synchronized Map<String, WebSocketSession> getUsers() {
         return userMap;
     }
 
