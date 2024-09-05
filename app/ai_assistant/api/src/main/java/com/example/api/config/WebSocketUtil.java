@@ -79,7 +79,7 @@ public class WebSocketUtil {
             addLoginCount();
             userMap.put(userId, webSocketSession);
         }
-        session.getAsyncRemote().sendText("接收到你的链接");
+//        session.getAsyncRemote().sendText("接收到你的链接");
         try(InputStream ins =this.getClass().getClassLoader().getResourceAsStream("callmes.json");
             BufferedInputStream bufferedInputStream = new BufferedInputStream(ins);
             BufferedReader reader = new BufferedReader(new InputStreamReader(bufferedInputStream));
@@ -89,7 +89,7 @@ public class WebSocketUtil {
 
             for (CallMessage callMessage : callMessageList) {
                 session.getAsyncRemote().sendText(JSONUtil.toJsonStr(callMessage));
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             }
         }catch (Exception e){
             log.info("e:",e);

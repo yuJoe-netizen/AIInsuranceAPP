@@ -1,13 +1,17 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+// import { RouterLink, RouterView } from 'vue-router'
+import { ref,reactive } from 'vue'
 import userAvatar from '../assets/user.png'
 import kefu from '../assets/kefu.png'
 import phone from '../assets/phone.png'
 import rebot from '../assets/rebot.png'
 import { onMounted } from 'vue'
+const data =reactive({
+  message:[]
+});
 
 onMounted(() => {
-  const ws = new WebSocket('ws://localhost:8891/call')
+  const ws = new WebSocket('ws://localhost:8891/call?userId=yujiangjun')
   ws.onopen = function () {
     console.log('ws链接成功')
   }
@@ -17,26 +21,19 @@ onMounted(() => {
   }
   ws.onmessage = function (e) {
     console.log('接收到消息')
-    console.log(e)
+    console.log(e.data)
+    console.log(JSON.parse(e.data))
+    data.message.push(JSON.parse(e.data))
   }
-  // if (this.$ws) {
-  //   this.$ws.onopen(() => {
-  //     console.log('WebSocket 连接已打开');
-  //   });
+});
 
-  //   this.$ws.onmessage((message) => {
-  //     console.log('接收到消息：', message.data);
-  //   });
-
-  //   this.$ws.onerror((error) => {
-  //     console.error('WebSocket 错误：', error);
-  //   });
-
-  //   this.$ws.onclose(() => {
-  //     console.log('WebSocket 连接已关闭');
-  //   });
-  // }
-})
+function addData(){
+  console.log('1')
+  data.message.push({
+    role:1,
+    message:'222222'
+  })
+}
 </script>
 <template>
   <div class="page-body">
@@ -46,26 +43,31 @@ onMounted(() => {
           <img :src="phone" />
         </div>
         <div class="chat-messages">
-          <div class="message received-message">
-            <img :src="userAvatar" alt="接收者头像" />
-            <div class="message-boarder-send">
-              <div class="message-text">你好，今天过得怎么样？</div>
+          <div v-for="(item,index) in data.message" :key="index">
+            <div class="message received-message" v-if="item.role===1">
+              <img :src="userAvatar" alt="接收者头像" />
+              <div class="message-boarder-send">
+                <div class="message-text">{{ item.message }}</div>
+              </div>
             </div>
-          </div>
-          <div class="message sent-message">
-            <div class="message-boarder-rece">
-              <div class="message-text">还不错，你呢？</div>
+            <div style="height: 10px;"></div>
+            <div class="message sent-message" v-if="item.role===2">
+              <div class="message-boarder-rece">
+                <div class="message-text">{{ item.message }}</div>
+              </div>
+              <img :src="kefu" alt="发送者头像" />
             </div>
-
-            <img :src="kefu" alt="发送者头像" />
+            <div style="height: 10px;"></div>
           </div>
+          
         </div>
       </div>
+      <!-- <button @click="addData">111111</button> -->
     </div>
     <div class="ai">
       <div class="chat-window">
         <div class="ai-header">
-          <p1 style="font-size: 25px;">AI助理</p1>
+          <p style="font-size: 25px;">AI助理</p>
         </div>
         <div class="user-question">
           <img :src="userAvatar" alt="接收者头像" class="ai-user-avatar" />
@@ -136,7 +138,7 @@ onMounted(() => {
 }
 
 .chat-messages {
-  height: 100%;
+  height: 80%;
   padding: 10px;
   overflow-y: scroll;
   background-color: beige;
@@ -145,6 +147,8 @@ onMounted(() => {
 .message {
   margin-bottom: 10px;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sent-message {
@@ -171,11 +175,13 @@ onMounted(() => {
   border: 1px red;
   background-color: cornflowerblue;
   border-radius: 10px;
+  margin-right: 5px;
 }
 .message-boarder-send {
   border: 1px red;
   background-color: #fff;
   border-radius: 10px;
+  margin-left: 5px;
 }
 .sent-message.message-text {
   background-color: #dcf8c6;
