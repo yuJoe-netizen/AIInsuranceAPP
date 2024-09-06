@@ -72,4 +72,38 @@ public class CCCUtil {
         log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
+
+    public GetLoginDetailsResponseBody getLoginDetails(String request) throws ExecutionException, InterruptedException {
+
+
+        // Parameter settings for API request
+        GetLoginDetailsRequest getLoginDetailsRequest = JSONUtil.toBean(request, GetLoginDetailsRequest.class);
+
+        CompletableFuture<GetLoginDetailsResponse> response = getClient().getLoginDetails(getLoginDetailsRequest);
+        GetLoginDetailsResponse resp = response.get();
+        log.info(JSONUtil.toJsonPrettyStr(resp));
+        return resp.getBody();
+    }
+    public ListOutboundNumbersOfUserResponseBody listOutboundNumbersOfUser(String request) throws ExecutionException, InterruptedException {
+
+
+        // Parameter settings for API request
+        ListOutboundNumbersOfUserRequest getLoginDetailsRequest = JSONUtil.toBean(request, ListOutboundNumbersOfUserRequest.class);
+
+        CompletableFuture<ListOutboundNumbersOfUserResponse> response = getClient().listOutboundNumbersOfUser(getLoginDetailsRequest);
+        ListOutboundNumbersOfUserResponse resp = response.get();
+        log.info(JSONUtil.toJsonPrettyStr(resp));
+        return resp.getBody();
+    }
+    public ListPrivilegesOfUserResponseBody listPrivilegesOfUser(String request) throws ExecutionException, InterruptedException {
+
+
+        // Parameter settings for API request
+        ListPrivilegesOfUserRequest getLoginDetailsRequest = JSONUtil.toBean(request, ListPrivilegesOfUserRequest.class);
+
+        CompletableFuture<ListPrivilegesOfUserResponse> response = getClient().listPrivilegesOfUser(getLoginDetailsRequest);
+        ListPrivilegesOfUserResponse resp = response.get();
+        log.info(JSONUtil.toJsonPrettyStr(resp));
+        return resp.getBody();
+    }
 }

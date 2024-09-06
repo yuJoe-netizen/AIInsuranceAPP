@@ -13,32 +13,34 @@ const data =reactive({
 onMounted(() => {
 
   window.workbench = new window.WorkbenchSdk({
-    dom:"call",
-    instanceId:"aiHelpAgent",
-    regionId:"cn-shanghai",
+   dom:"call",
+   instanceId:"aiHelpAgent",
+   regionId:"cn-shanghai",
+   ajaxOrigin:"http://127.0.0.1:8891",
+   ajaxPath:"/aliyun/ccc/api",
     onInit() {
      window.workbench.register() // 想实现自动上线在此注册
   },
   onErrorNotify(error) {
     console.warn(error);
   },
-    // height:"50px"
+    height:"50px"
   })
   const browserOk = window.workbench.checkNetwork()
   console.log(browserOk)
 
   const ws = new WebSocket('ws://localhost:8891/call?userId=yujiangjun')
   ws.onopen = function () {
-    console.log('ws链接成功')
+    // console.log('ws链接成功')
   }
   ws.onerror = function (e) {
-    console.log('发生了错误')
+    // console.log('发生了错误')
     console.log(e)
   }
   ws.onmessage = function (e) {
-    console.log('接收到消息')
-    console.log(e.data)
-    console.log(JSON.parse(e.data))
+    // console.log('接收到消息')
+    // console.log(e.data)
+    // console.log(JSON.parse(e.data))
     data.message.push(JSON.parse(e.data))
   }
 });
