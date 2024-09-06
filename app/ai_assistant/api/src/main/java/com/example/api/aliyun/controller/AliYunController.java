@@ -23,15 +23,17 @@ public class AliYunController {
 //        log.info("action:{}",action);
         log.info("request:{}",request);
         if (Objects.equals("GetTurnServerList",request.getAction())){
-            return cccUtil.getTurnServerList();
+            return cccUtil.getTurnServerList(request.getRequest());
         } else if (Objects.equals("ListSkillLevelsOfUser",request.getAction())) {
-            return cccUtil.listSkillLevelsOfUser();
+            return cccUtil.listSkillLevelsOfUser(request.getRequest());
         } else if (Objects.equals("getLoginDetails",request.getAction())) {
             return cccUtil.getLoginDetails(request.getRequest());
         }else if (Objects.equals("ListOutboundNumbersOfUser",request.getAction())) {
             return cccUtil.listOutboundNumbersOfUser(request.getRequest());
         }else if (Objects.equals("ListPrivilegesOfUser",request.getAction())) {
             return cccUtil.listPrivilegesOfUser(request.getRequest());
+        }else if (Objects.equals("SaveTerminalLog",request.getAction())) {
+            return cccUtil.saveTerminalLog(request.getRequest());
         }
 
         return null;
