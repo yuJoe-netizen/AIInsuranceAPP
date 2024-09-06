@@ -11,6 +11,22 @@ const data =reactive({
 });
 
 onMounted(() => {
+
+  window.workbench = new window.WorkbenchSdk({
+    dom:"call",
+    instanceId:"aiHelpAgent",
+    regionId:"cn-shanghai",
+    onInit() {
+     window.workbench.register() // 想实现自动上线在此注册
+  },
+  onErrorNotify(error) {
+    console.warn(error);
+  },
+    // height:"50px"
+  })
+  const browserOk = window.workbench.checkNetwork()
+  console.log(browserOk)
+
   const ws = new WebSocket('ws://localhost:8891/call?userId=yujiangjun')
   ws.onopen = function () {
     console.log('ws链接成功')
@@ -41,6 +57,9 @@ function addData(){
       <div class="chat-window">
         <div class="chat-header">
           <img :src="phone" />
+          <div id="call">
+            <div></div>
+          </div>
         </div>
         <div class="chat-messages">
           <div v-for="(item,index) in data.message" :key="index">
