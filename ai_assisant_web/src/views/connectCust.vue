@@ -17,7 +17,7 @@ const turnServer=reactive({
 })
 const showPop = ref(false)
 const popupRef = ref(null)
-const listUser = []
+// const listUser = []
 const { ctx } = getCurrentInstance();
 const tel = ref('')
 onMounted(() => {
@@ -93,22 +93,22 @@ async function getTurnServerList(){
 /**
  * 查询坐席的技能组信息列表
  */
-async function listSkillLevelsOfUser(){
-  let data={
-    instanceId:"aiHelpAgent",
-    pageNumber:"1",
-    pageSize:"10"
-  }
-  let resp = await axios.post('aliyun/ccc/listSkillLevelsOfUser',data)
-  // listUser.users=resp.data.list
-  console.log("查询坐席的技能组信息列表")
+// async function listSkillLevelsOfUser(){
+//   let data={
+//     instanceId:"aiHelpAgent",
+//     pageNumber:"1",
+//     pageSize:"10"
+//   }
+//   let resp = await axios.post('aliyun/ccc/listSkillLevelsOfUser',data)
+//   // listUser.users=resp.data.list
+//   console.log("查询坐席的技能组信息列表")
   
-  console.log(resp.data.list)
+//   console.log(resp.data.list)
 
-  listUser=resp.data.list
-  console.log(listUser)
-  return resp.data.list
-}
+//   listUser=resp.data.list
+//   console.log(listUser)
+//   return resp.data.list
+// }
 
 async function callPhone(){
   console.log(tel.value)
