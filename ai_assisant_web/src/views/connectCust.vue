@@ -1,5 +1,7 @@
 <script setup>
 // import { RouterLink, RouterView } from 'vue-router'
+import { getCurrentInstance } from 'vue';
+import axios from '../axiosInstance.js';
 import { ref,reactive } from 'vue'
 import userAvatar from '../assets/user.png'
 import kefu from '../assets/kefu.png'
@@ -9,25 +11,13 @@ import { onMounted } from 'vue'
 const data =reactive({
   message:[]
 });
-
+const turnServer=reactive({
+  regionId:''
+})
+const listUser = []
+const { ctx } = getCurrentInstance();
 onMounted(() => {
 
-  window.workbench = new window.WorkbenchSdk({
-   dom:"call",
-   instanceId:"aiHelpAgent",
-   regionId:"cn-shanghai",
-   ajaxOrigin:"http://127.0.0.1:8891",
-   ajaxPath:"/aliyun/ccc/api",
-    onInit() {
-     window.workbench.register() // 想实现自动上线在此注册
-  },
-  onErrorNotify(error) {
-    console.warn(error);
-  },
-    height:"50px"
-  })
-  const browserOk = window.workbench.checkNetwork()
-  console.log(browserOk)
 
   const ws = new WebSocket('ws://localhost:8891/call?userId=yujiangjun')
   ws.onopen = function () {
@@ -43,22 +33,119 @@ onMounted(() => {
     // console.log(JSON.parse(e.data))
     data.message.push(JSON.parse(e.data))
   }
+  getTurnServerList()
+  // listSkillLevelsOfUser()
 });
 
 function addData(){
-  console.log('1')
-  data.message.push({
-    role:1,
-    message:'222222'
-  })
+  console.log('开始拨打电话')
+  window.workbench.call('18521342762')
 }
+
+/**
+ * 获取获取云呼提供的turn服务接入点
+ */
+async function getTurnServerList(){
+  let data={
+    instanceId:"aiHelpAgent"
+  }
+  let resp = await axios.post('aliyun/ccc/getTurnServerList',data)
+  // console.log(ctx.$axios)
+  console.log("获取获取云呼提供的turn服务接入点")
+  let list = JSON.parse(resp.data)
+  turnServer.regionId=list[0].region
+  console.log(turnServer.regionId)
+}
+
+/**
+ * 查询坐席的技能组信息列表
+ */
+async function listSkillLevelsOfUser(){
+  let data={
+    instanceId:"aiHelpAgent",
+    pageNumber:"1",
+    pageSize:"10"
+  }
+  let resp = await axios.post('aliyun/ccc/listSkillLevelsOfUser',data)
+  // listUser.users=resp.data.list
+  console.log("查询坐席的技能组信息列表")
+  
+  console.log(resp.data.list)
+
+  listUser=resp.data.list
+  console.log(listUser)
+  return resp.data.list
+}
+
+async function callPhone(){
+  window.workbench = new window.WorkbenchSdk({
+   dom:"call",
+   height:"50px",
+   instanceId:"aiHelpAgent",
+   regionId:"cn-shanghai",
+   ajaxOrigin:"http://127.0.0.1:8891",
+   ajaxPath:"/aliyun/ccc/api",
+    onInit() {
+     window.workbench.register() // 想实现自动上线在此注册
+  },
+  onRegister(config){
+    console.log('软电话注册')
+    console.log(config)
+  },
+  onLogIn(){
+    console.log('登录成功')
+
+  },
+  onLogOut(){
+    console.log('登出')
+  },
+  onBreak(){
+    console.log('小休回调')
+  },
+  onReady(){
+    console.log('空闲回调')
+  },
+  onErrorNotify(error) {
+    console.warn(error);
+  },
+  onCallDialing(callDetail){
+    console.log('拨打前的回调')
+    console.log(callDetail)
+  }
+  })
+  console.log('1111111111111')
+  // const browserOk = window.workbench.isAvailBrowser()
+  // console.log(browserOk)
+  let data={
+    instanceId:"aiHelpAgent",
+    pageNumber:"1",
+    pageSize:"10"
+  }
+  let resp = await axios.post('aliyun/ccc/listSkillLevelsOfUser',data)
+
+  console.log(resp.data.list)
+  let users = resp.data.list
+  console.log(`user:`,users)
+  console.log(`region:`,turnServer.regionId)
+
+  // let regist_resp = window.workbench.register(users,turnServer.regionId,0,'normal','测试')
+  // console.log('22222222222')
+  // console.log(regist_resp)
+  // let login_resp = window.workbench.logIn(users,'normal','测试')
+  // console.log('333333333')
+  // console.log(login_resp)
+
+  // let ddd = listSkillLevelsOfUser()
+  // console.log(ddd)
+}
+
 </script>
 <template>
   <div class="page-body">
     <div>
       <div class="chat-window">
         <div class="chat-header">
-          <img :src="phone" />
+          <img :src="phone" @click="callPhone"/>
           <div id="call">
             <div></div>
           </div>
@@ -83,7 +170,7 @@ function addData(){
           
         </div>
       </div>
-      <!-- <button @click="addData">111111</button> -->
+      <button @click="addData">开始拨打</button>
     </div>
     <div class="ai">
       <div class="chat-window">
