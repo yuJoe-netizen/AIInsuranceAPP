@@ -80,7 +80,7 @@ public class WebSocketUtil {
             userMap.put(userId, webSocketSession);
         }
 //        session.getAsyncRemote().sendText("接收到你的链接");
-        try(InputStream ins =this.getClass().getClassLoader().getResourceAsStream("callmes.json");
+        try(InputStream ins =this.getClass().getClassLoader().getResourceAsStream("callmes1.json");
             BufferedInputStream bufferedInputStream = new BufferedInputStream(ins);
             BufferedReader reader = new BufferedReader(new InputStreamReader(bufferedInputStream));
         ) {
