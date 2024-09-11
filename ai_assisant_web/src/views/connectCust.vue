@@ -68,13 +68,13 @@ onMounted(() => {
   }
   })
 });
-
+/* 
  const addData=()=>{
   console.log('开始拨打电话')
   // window.workbench.call('18521342762')
   popupRef.value.openPopup()
 }
-
+*/
 /**
  * 获取获取云呼提供的turn服务接入点
  */
@@ -186,13 +186,13 @@ async function callPhone(){
       </div>
     </div>
   </div>
-  <Popup v-model:visible="showPop" :animation="true" :auto-index="true" ref="popupRef" >
+  <!-- <Popup v-model:visible="showPop" :animation="true" :auto-index="true" ref="popupRef" >
       <div>
           电话:<input type="number" v-model="tel"/>
          <button @click="callPhone">拨打 </button>
          页面
       </div>
-   </Popup>
+   </Popup> -->
 </template>
 <style lang="css">
 .chat-window {
