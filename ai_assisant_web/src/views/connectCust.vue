@@ -180,7 +180,19 @@ async function callPhone(){
 
         <div class="ai-create-content2">
           <div class="content2-header">
-            强调高风险账号逾期后果:移交总部监管并追责
+            <p>强调高风险账号逾期后果:移交总部监管并追责</p>
+          </div>
+          <div class="content2-body">
+            <p>一旦标识为高风险账户，意味着您的案件会由总部直接运营直接监管</p>
+          </div>
+        </div>
+
+        <div class="ai-create-content2">
+          <div class="content2-header">
+            <p>强调高风险账号逾期后果:移交总部监管并追责</p>
+          </div>
+          <div class="content2-body">
+            <p>一旦标识为高风险账户，意味着您的案件会由总部直接运营直接监管</p>
           </div>
         </div>
       </div>
@@ -368,11 +380,24 @@ async function callPhone(){
 
 .ai-create-content2{
   width: 100%;
-  background-color: antiquewhite;
+  background-color: rgb(244, 242, 240);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 20px;
+}
+
+.ai-create-content2 .content2-header p{
+  color: #2181b6;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ai-create-content2 .content2-body p{
+  color: #000;
+  font-size: 12px;
+  /* font-weight: 700; */
 }
 </style>
 
