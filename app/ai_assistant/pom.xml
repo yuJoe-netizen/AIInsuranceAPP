@@ -36,6 +36,8 @@
 		<java.version>17</java.version>
 		<spring-cloud.version>2023.0.3</spring-cloud.version>
 		<hutool.version>5.8.32</hutool.version>
+		<rocketmq.version>2.2.3</rocketmq.version>
+		<mq.sdk.version>1.0.3.2</mq.sdk.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -95,6 +97,18 @@
 				<version>${hutool.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.rocketmq</groupId>
+				<artifactId>rocketmq-spring-boot-starter</artifactId>
+				<version>${rocketmq.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.aliyun.mq</groupId>
+				<artifactId>mq-http-sdk</artifactId>
+				<!--以下版本号请替换为Java SDK的最新版本号-->
+				<version>${mq.sdk.version}</version>
+				<classifier>jar-with-dependencies</classifier>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
