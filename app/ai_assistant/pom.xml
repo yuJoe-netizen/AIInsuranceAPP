@@ -81,6 +81,11 @@
 			<artifactId>alibabacloud-ccc20200701</artifactId>
 			<version>1.0.32</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.rocketmq</groupId>
+			<artifactId>rocketmq-client-java</artifactId>
+			<version>5.0.7</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
