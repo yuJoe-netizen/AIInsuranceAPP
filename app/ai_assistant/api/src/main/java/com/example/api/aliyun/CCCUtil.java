@@ -278,8 +278,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<PollUserStatusResponse> response = getClient().pollUserStatus(getLoginDetailsRequest);
         PollUserStatusResponse resp = response.get();
-        log.info("=================技能组登录=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================技能组登录=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public ReadyForServiceResponseBody readyForService(String request) throws ExecutionException, InterruptedException {
@@ -343,6 +343,73 @@ public class CCCUtil {
         log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
+    public MakeCallResponseBody makeCall(String request) throws ExecutionException, InterruptedException {
+
+        Map<String,String> requestMap = JSONUtil.toBean(request, new TypeReference<Map<String,String>>() {},true);
+        // Parameter settings for API request
+        MakeCallRequest makeCallRequest = MakeCallRequest.builder()
+                .callee(requestMap.get("callee"))
+                .caller(requestMap.get("caller"))
+                .mediaType(requestMap.get("mediaType"))
+                .deviceId(requestMap.get("deviceId"))
+                .instanceId(requestMap.get("instanceId"))
+                .build();
+        CompletableFuture<MakeCallResponse> response = getClient().makeCall(makeCallRequest);
+        MakeCallResponse resp = response.get();
+        log.info("=================拨打电话=================");
+        log.info(JSONUtil.toJsonPrettyStr(resp));
+        return resp.getBody();
+    }
+
+    public GetNumberLocationResponseBody getNumberLocation(String request) throws ExecutionException, InterruptedException {
+
+        Map<String,String> requestMap = JSONUtil.toBean(request, new TypeReference<Map<String,String>>() {},true);
+        // Parameter settings for API request
+        GetNumberLocationRequest makeCallRequest = GetNumberLocationRequest.builder()
+                .number(requestMap.get("Number"))
+                .instanceId(requestMap.get("instanceId"))
+                .build();
+        CompletableFuture<GetNumberLocationResponse> response = getClient().getNumberLocation(makeCallRequest);
+        GetNumberLocationResponse resp = response.get();
+        log.info("=================查询号码归属地=================");
+        log.info(JSONUtil.toJsonPrettyStr(resp));
+        return resp.getBody();
+    }
+
+    public SaveWebRtcInfoResponseBody saveWebRtcInfo(String request) throws ExecutionException, InterruptedException {
+
+        Map<String,String> requestMap = JSONUtil.toBean(request, new TypeReference<Map<String,String>>() {},true);
+        // Parameter settings for API request
+        SaveWebRtcInfoRequest makeCallRequest = SaveWebRtcInfoRequest.builder()
+                .callId(requestMap.get("callId"))
+                .content(requestMap.get("content"))
+                .contentType(requestMap.get("contentType"))
+                .jobId(requestMap.get("jobId"))
+                .instanceId(requestMap.get("instanceId"))
+                .build();
+        CompletableFuture<SaveWebRtcInfoResponse> response = getClient().saveWebRtcInfo(makeCallRequest);
+        SaveWebRtcInfoResponse resp = response.get();
+        log.info("=================拨打电话=================");
+        log.info(JSONUtil.toJsonPrettyStr(resp));
+        return resp.getBody();
+    }
+    public ReleaseCallResponseBody releaseCall(String request) throws ExecutionException, InterruptedException {
+
+        Map<String,String> requestMap = JSONUtil.toBean(request, new TypeReference<Map<String,String>>() {},true);
+        // Parameter settings for API request
+        ReleaseCallRequest makeCallRequest = ReleaseCallRequest.builder()
+                .deviceId(requestMap.get("deviceId"))
+                .channelId(requestMap.get("channelId"))
+                .jobId(requestMap.get("jobId"))
+                .instanceId(requestMap.get("instanceId"))
+                .build();
+        CompletableFuture<ReleaseCallResponse> response = getClient().releaseCall(makeCallRequest);
+        ReleaseCallResponse resp = response.get();
+        log.info("=================挂电话=================");
+        log.info(JSONUtil.toJsonPrettyStr(resp));
+        return resp.getBody();
+    }
+
 
 
 }

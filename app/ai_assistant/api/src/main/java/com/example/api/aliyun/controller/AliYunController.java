@@ -58,6 +58,14 @@ public class AliYunController {
             return cccUtil.signOutGroup(request.getRequest());
         }else if (Objects.equals("PickOutboundNumbers",request.getAction())) {
             return cccUtil.pickOutboundNumbers(request.getRequest());
+        }else if (Objects.equals("MakeCall",request.getAction())) {
+            return cccUtil.makeCall(request.getRequest());
+        }else if (Objects.equals("GetNumberLocation",request.getAction())) {
+            return cccUtil.getNumberLocation(request.getRequest());
+        }else if (Objects.equals("SaveWebRtcInfo",request.getAction())) {
+            return cccUtil.saveWebRtcInfo(request.getRequest());
+        }else if (Objects.equals("ReleaseCall",request.getAction())) {
+            return cccUtil.releaseCall(request.getRequest());
         }
         return null;
     }
