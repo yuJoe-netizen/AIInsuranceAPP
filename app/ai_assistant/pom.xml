@@ -16,6 +16,7 @@
 		<module>base</module>
 		<module>common</module>
 		<module>api</module>
+		<module>mq</module>
 	</modules>
 	<name>ai_assistant</name>
 	<description>Demo project for Spring Boot</description>
@@ -51,6 +52,12 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-consul-discovery</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -81,11 +88,32 @@
 			<artifactId>alibabacloud-ccc20200701</artifactId>
 			<version>1.0.32</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.apache.rocketmq</groupId>-->
+<!--			<artifactId>rocketmq-client-java</artifactId>-->
+<!--			<version>5.0.7</version>-->
+<!--		</dependency>-->
+
 		<dependency>
-			<groupId>org.apache.rocketmq</groupId>
-			<artifactId>rocketmq-client-java</artifactId>
-			<version>5.0.7</version>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>javax.activation</groupId>-->
+<!--			<artifactId>activation</artifactId>-->
+<!--			<version>1.1.1</version>-->
+<!--		</dependency>-->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
