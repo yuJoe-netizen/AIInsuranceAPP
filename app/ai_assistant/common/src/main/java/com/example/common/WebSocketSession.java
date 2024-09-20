@@ -1,7 +1,8 @@
 package com.example.common;
 
-import jakarta.websocket.Session;
 import lombok.Data;
+
+import javax.websocket.Session;
 
 @Data
 public class WebSocketSession {

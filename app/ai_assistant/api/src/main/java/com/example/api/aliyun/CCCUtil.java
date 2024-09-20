@@ -58,8 +58,8 @@ public class CCCUtil {
 
         CompletableFuture<GetTurnServerListResponse> response = getClient().getTurnServerList(getTurnServerListRequest);
         GetTurnServerListResponse resp = response.get();
-        log.info("=========获取接入点========================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=========获取接入点========================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
 
@@ -93,8 +93,8 @@ public class CCCUtil {
         ListSkillLevelsOfUserResponse resp = response.get();
 
         // 记录技能组信息日志
-        log.info("=========技能组========================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=========技能组========================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
 
         // 返回技能等级列表的响应体
         return resp.getBody();
@@ -125,8 +125,8 @@ public class CCCUtil {
         // Wait for the asynchronous operation to complete and get the result.
         GetLoginDetailsResponse resp = response.get();
         // Log the response information for debugging purposes.
-        log.info("===================获取登录详情==========================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("===================获取登录详情==========================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         // Return the body of the response.
         return resp.getBody();
     }
@@ -143,8 +143,8 @@ public class CCCUtil {
 
         CompletableFuture<ListOutboundNumbersOfUserResponse> response = getClient().listOutboundNumbersOfUser(getLoginDetailsRequest);
         ListOutboundNumbersOfUserResponse resp = response.get();
-        log.info("=================坐席的外呼号码===================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================坐席的外呼号码===================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public ListPrivilegesOfUserResponseBody listPrivilegesOfUser(String request) throws ExecutionException, InterruptedException {
@@ -156,8 +156,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<ListPrivilegesOfUserResponse> response = getClient().listPrivilegesOfUser(getLoginDetailsRequest);
         ListPrivilegesOfUserResponse resp = response.get();
-        log.info("=================坐席的权限列表===================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================坐席的权限列表===================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
 
@@ -178,8 +178,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<SaveTerminalLogResponse> response = getClient().saveTerminalLog(getLoginDetailsRequest);
         SaveTerminalLogResponse resp = response.get();
-        log.info("=================给服务端上报错误日志===================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================给服务端上报错误日志===================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
 
@@ -192,8 +192,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<GetUserResponse> response = getClient().getUser(getLoginDetailsRequest);
         GetUserResponse resp = response.get();
-        log.info("=================获取坐席的信息=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================获取坐席的信息=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public ListConfigItemsResponseBody listConfigItems(String request) throws ExecutionException, InterruptedException {
@@ -207,8 +207,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<ListConfigItemsResponse> response = getClient().listConfigItems(getLoginDetailsRequest);
         ListConfigItemsResponse resp = response.get();
-        log.info("=================获取坐席工作台配置信息=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================获取坐席工作台配置信息=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public GetTurnCredentialsResponseBody getTurnCredentials(String request) throws ExecutionException, InterruptedException {
@@ -221,8 +221,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<GetTurnCredentialsResponse> response = getClient().getTurnCredentials(getLoginDetailsRequest);
         GetTurnCredentialsResponse resp = response.get();
-        log.info("=================获取Turn服务的账号密码=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================获取Turn服务的账号密码=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public ListDevicesResponseBody listDevices(String request) throws ExecutionException, InterruptedException {
@@ -234,8 +234,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<ListDevicesResponse> response = getClient().listDevices(getLoginDetailsRequest);
         ListDevicesResponse resp = response.get();
-        log.info("=================获取登录的设备信息=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================获取登录的设备信息=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public ResetAgentStateResponseBody resetAgentState(String request) throws ExecutionException, InterruptedException {
@@ -248,8 +248,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<ResetAgentStateResponse> response = getClient().resetAgentState(getLoginDetailsRequest);
         ResetAgentStateResponse resp = response.get();
-        log.info("=================重置坐席状态=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================重置坐席状态=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public SignInGroupResponseBody signInGroup(String request) throws ExecutionException, InterruptedException {
@@ -263,8 +263,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<SignInGroupResponse> response = getClient().signInGroup(getLoginDetailsRequest);
         SignInGroupResponse resp = response.get();
-        log.info("=================技能组登录=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================技能组登录=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
 
@@ -293,8 +293,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<ReadyForServiceResponse> response = getClient().readyForService(getLoginDetailsRequest);
         ReadyForServiceResponse resp = response.get();
-        log.info("=================置空闲=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================置空闲=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
 
@@ -309,8 +309,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<TakeBreakResponse> response = getClient().takeBreak(getLoginDetailsRequest);
         TakeBreakResponse resp = response.get();
-        log.info("=================小休=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================小休=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public SignOutGroupResponseBody signOutGroup(String request) throws ExecutionException, InterruptedException {
@@ -323,8 +323,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<SignOutGroupResponse> response = getClient().signOutGroup(getLoginDetailsRequest);
         SignOutGroupResponse resp = response.get();
-        log.info("=================登出=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================登出=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public PickOutboundNumbersResponseBody pickOutboundNumbers(String request) throws ExecutionException, InterruptedException {
@@ -339,8 +339,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<PickOutboundNumbersResponse> response = getClient().pickOutboundNumbers(getLoginDetailsRequest);
         PickOutboundNumbersResponse resp = response.get();
-        log.info("=================自动选择外呼号码=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================自动选择外呼号码=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public MakeCallResponseBody makeCall(String request) throws ExecutionException, InterruptedException {
@@ -356,8 +356,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<MakeCallResponse> response = getClient().makeCall(makeCallRequest);
         MakeCallResponse resp = response.get();
-        log.info("=================拨打电话=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================拨打电话=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
 
@@ -371,8 +371,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<GetNumberLocationResponse> response = getClient().getNumberLocation(makeCallRequest);
         GetNumberLocationResponse resp = response.get();
-        log.info("=================查询号码归属地=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================查询号码归属地=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
 
@@ -389,8 +389,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<SaveWebRtcInfoResponse> response = getClient().saveWebRtcInfo(makeCallRequest);
         SaveWebRtcInfoResponse resp = response.get();
-        log.info("=================拨打电话=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================拨打电话=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
     public ReleaseCallResponseBody releaseCall(String request) throws ExecutionException, InterruptedException {
@@ -405,8 +405,8 @@ public class CCCUtil {
                 .build();
         CompletableFuture<ReleaseCallResponse> response = getClient().releaseCall(makeCallRequest);
         ReleaseCallResponse resp = response.get();
-        log.info("=================挂电话=================");
-        log.info(JSONUtil.toJsonPrettyStr(resp));
+//        log.info("=================挂电话=================");
+//        log.info(JSONUtil.toJsonPrettyStr(resp));
         return resp.getBody();
     }
 

@@ -25,7 +25,7 @@ public class AliYunController {
     @PostMapping(value = "/api")
     public Object api(ALiYunApiReqVO request) throws ExecutionException, InterruptedException {
 //        log.info("action:{}",action);
-        log.info("request:{}",request);
+//        log.info("request:{}",request);
         if (Objects.equals("GetTurnServerList",request.getAction())){
             return cccUtil.getTurnServerList(request.getRequest());
         } else if (Objects.equals("ListSkillLevelsOfUser",request.getAction())) {

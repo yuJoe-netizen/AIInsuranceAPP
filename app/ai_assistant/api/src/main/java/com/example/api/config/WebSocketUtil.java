@@ -6,12 +6,11 @@ import cn.hutool.json.JSONUtil;
 import com.example.api.model.CallMessage;
 import com.example.common.WebSocketSession;
 import com.example.common.enums.MessageRoleEnum;
-import jakarta.websocket.*;
-import jakarta.websocket.server.PathParam;
-import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -79,21 +78,22 @@ public class WebSocketUtil {
             addLoginCount();
             userMap.put(userId, webSocketSession);
         }
+        log.info("已登录人员:{}",JSONUtil.toJsonPrettyStr(userMap));
 //        session.getAsyncRemote().sendText("接收到你的链接");
-        try(InputStream ins =this.getClass().getClassLoader().getResourceAsStream("callmes1.json");
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(ins);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(bufferedInputStream));
-        ) {
-            String json = IoUtil.read(reader);
-            List<CallMessage> callMessageList = JSONUtil.toBean(json, new TypeReference<List<CallMessage>>() {}, true);
-
-            for (CallMessage callMessage : callMessageList) {
-                session.getAsyncRemote().sendText(JSONUtil.toJsonStr(callMessage));
-                Thread.sleep(2000);
-            }
-        }catch (Exception e){
-            log.info("e:",e);
-        }
+//        try(InputStream ins =this.getClass().getClassLoader().getResourceAsStream("callmes1.json");
+//            BufferedInputStream bufferedInputStream = new BufferedInputStream(ins);
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(bufferedInputStream));
+//        ) {
+//            String json = IoUtil.read(reader);
+//            List<CallMessage> callMessageList = JSONUtil.toBean(json, new TypeReference<List<CallMessage>>() {}, true);
+//
+//            for (CallMessage callMessage : callMessageList) {
+//                session.getAsyncRemote().sendText(JSONUtil.toJsonStr(callMessage));
+//                Thread.sleep(2000);
+//            }
+//        }catch (Exception e){
+//            log.info("e:",e);
+//        }
     }
     /**
      * @Description: 关闭连接触发事件
