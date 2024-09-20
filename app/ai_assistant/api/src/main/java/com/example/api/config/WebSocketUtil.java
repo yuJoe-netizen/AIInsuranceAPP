@@ -78,7 +78,6 @@ public class WebSocketUtil {
             addLoginCount();
             userMap.put(userId, webSocketSession);
         }
-        log.info("已登录人员:{}",JSONUtil.toJsonPrettyStr(userMap));
 //        session.getAsyncRemote().sendText("接收到你的链接");
 //        try(InputStream ins =this.getClass().getClassLoader().getResourceAsStream("callmes1.json");
 //            BufferedInputStream bufferedInputStream = new BufferedInputStream(ins);
