@@ -27,9 +27,11 @@ onMounted(() => {
   ws.onopen = function () {
   }
   ws.onerror = function (e) {
-    console.log(e)
+    console.log(`发生了websocket错误:${e}`)
   }
   ws.onmessage = function (e) {
+    console.log(e)
+  console.log(`接收到到消息：${e}`)
     data.message.push(JSON.parse(e.data))
   }
   window.workbench = new window.WorkbenchSdk({
@@ -68,53 +70,6 @@ onMounted(() => {
   }
   })
 });
-/* 
- const addData=()=>{
-  console.log('开始拨打电话')
-  // window.workbench.call('18521342762')
-  popupRef.value.openPopup()
-}
-*/
-/**
- * 获取获取云呼提供的turn服务接入点
- */
-async function getTurnServerList(){
-  let data={
-    instanceId:"aiHelpAgent"
-  }
-  let resp = await axios.post('aliyun/ccc/getTurnServerList',data)
-  // console.log(ctx.$axios)
-  console.log("获取获取云呼提供的turn服务接入点")
-  let list = JSON.parse(resp.data)
-  turnServer.regionId=list[0].region
-  console.log(turnServer.regionId)
-}
-
-/**
- * 查询坐席的技能组信息列表
- */
-// async function listSkillLevelsOfUser(){
-//   let data={
-//     instanceId:"aiHelpAgent",
-//     pageNumber:"1",
-//     pageSize:"10"
-//   }
-//   let resp = await axios.post('aliyun/ccc/listSkillLevelsOfUser',data)
-//   // listUser.users=resp.data.list
-//   console.log("查询坐席的技能组信息列表")
-  
-//   console.log(resp.data.list)
-
-//   listUser=resp.data.list
-//   console.log(listUser)
-//   return resp.data.list
-// }
-
-async function callPhone(){
-  console.log(tel.value)
-  window.workbench.call(tel.value)
-}
-
 </script>
 <template>
   <div class="page-body">
@@ -128,16 +83,16 @@ async function callPhone(){
         </div>
         <div class="chat-messages">
           <div v-for="(item,index) in data.message" :key="index">
-            <div class="message received-message" v-if="item.role===1">
+            <div class="message received-message" v-if="item.channelType==='agent'">
               <img :src="userAvatar" alt="接收者头像" />
               <div class="message-boarder-send">
-                <div class="message-text">{{ item.message }}</div>
+                <div class="message-text">{{ item.text }}</div>
               </div>
             </div>
             <div style="height: 10px;"></div>
-            <div class="message sent-message" v-if="item.role===2">
+            <div class="message sent-message" v-if="item.channelType==='customer'">
               <div class="message-boarder-rece">
-                <div class="message-text">{{ item.message }}</div>
+                <div class="message-text">{{ item.text }}</div>
               </div>
               <img :src="kefu" alt="发送者头像" />
             </div>
