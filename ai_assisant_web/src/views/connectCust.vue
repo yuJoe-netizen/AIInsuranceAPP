@@ -1,7 +1,5 @@
 <script setup>
 // import { RouterLink, RouterView } from 'vue-router'
-import {Popup} from 'vue3-popup-layer'
-import { getCurrentInstance } from 'vue';
 import axios from '../axiosInstance.js';
 import { ref,reactive } from 'vue'
 import userAvatar from '../assets/user.png'
@@ -10,18 +8,16 @@ import phone from '../assets/phone.png'
 import rebot from '../assets/rebot.png'
 import { onMounted } from 'vue'
 const data =reactive({
-  message:[]
+  message:[],
+  rightDatas:[],
 });
-const turnServer=reactive({
-  regionId:''
-})
-const showPop = ref(false)
-const popupRef = ref(null)
+const scrollContainer = ref(null);
 // const listUser = []
-const { ctx } = getCurrentInstance();
-const tel = ref('')
 onMounted(() => {
-
+  setTimeout(() => {
+      console.log('内容增加时', scrollContainer.value.scrollHeight);
+      scrollContainer.value.scrollTop = scrollContainer.value.scrollHeight;
+    }, 20); // 注意这里需要延迟20ms正好可以获取到更新后的dom节点
 
   const ws = new WebSocket('ws://localhost:8891/call?userId=yujiangjun')
   ws.onopen = function () {
@@ -30,8 +26,7 @@ onMounted(() => {
     console.log(`发生了websocket错误:${e}`)
   }
   ws.onmessage = function (e) {
-    console.log(e)
-  console.log(`接收到到消息：${e}`)
+    getRightData()
     data.message.push(JSON.parse(e.data))
   }
   window.workbench = new window.WorkbenchSdk({
@@ -70,6 +65,28 @@ onMounted(() => {
   }
   })
 });
+
+async function getRightData(){
+ let resp = await axios.get('/suggest/getSuggest',{
+    params:{
+      context:"证据"
+    }
+  })
+  data.rightDatas.push(resp.data)
+  const uniqueArr = data.rightDatas.reduce((acc, curr) => {
+    if (!acc[curr.pressurePoint]) {
+      acc[curr.pressurePoint] = curr;
+    }
+    return acc;
+  }, {});
+  const result = Object.values(uniqueArr);
+  data.rightDatas=[];
+  result.forEach(t=>{
+    data.rightDatas.push(t)
+  })
+  console.log('接收到右边的数据');
+  console.log(data.rightDatas)
+}
 </script>
 <template>
   <div class="page-body">
@@ -101,65 +118,61 @@ onMounted(() => {
           
         </div>
       </div>
-      <!-- <button @click="addData">开始拨打</button> -->
     </div>
     <div class="ai">
       <div class="chat-window">
         <div class="ai-header">
           <p style="font-size: 25px;">AI助理</p>
         </div>
-        <div class="user-question">
-          <img :src="userAvatar" alt="接收者头像" class="ai-user-avatar" />
-          <div><span style="">客户问题点：</span><span style="font-size: 20px;font-weight: 700;color:#00877f">证据</span></div>
+        <div v-for="(item,index) in data.rightDatas" :key="index" class="left-body" ref="scrollContainer">
+          <div class="user-point">
+          <div>未完成:<span style="font-weight: 700; color: #fe864f;">{{ item. pressurePoint}}</span></div>
         </div>
-        <div class="ai-create-header">
-          <img :src="rebot">
-            <p><span style="font-weight: 700;">AI 为您推荐一下三种话术</span></p>
-        </div>
-        <div class="ai-create-content1">
-          <div class="content1-header">
-            强调高风险账号逾期后果:移交总部监管并追责
+        <div v-for="(item1,index1) in item.promptList" :key="index1">
+          <div class="user-question">
+            <img :src="userAvatar" alt="接收者头像" class="ai-user-avatar" />
+            <div><span style="">客户问题点：</span><span style="font-size: 20px;font-weight: 700;color:#00877f">{{ item1.questionPoint}}</span></div>
           </div>
-          <div class="content1-body">
-            一旦标识为高风险账户，意味着您的案件会由总部直接运营直接监管，稍后也会召开线上风控会议，出具一份详细的“快递追责名单“，对于剩余本金大的或者还款期数段的都会同步更新至其他。
+          <div class="ai-create-header">
+            <img :src="rebot">
+              <p><span style="font-weight: 700;">AI 为您推荐一下三种话术</span></p>
           </div>
-          <div class="content1-law">
-              <div class="law-name">
-                《民法通则》第84条
-              </div>
-              <div class="law-content">
-                债权人有权要求债务人按照合同约定或者依照法律的规定履行义务
-              </div>
-          </div>
-        </div>
 
-        <div class="ai-create-content2">
-          <div class="content2-header">
-            <p>强调高风险账号逾期后果:移交总部监管并追责</p>
-          </div>
-          <div class="content2-body">
-            <p>一旦标识为高风险账户，意味着您的案件会由总部直接运营直接监管</p>
-          </div>
-        </div>
+          <div v-for="(item2,index2) in item1.prompt" :key="index2">
+            <div class="ai-create-content1" v-if="item2.lawTitle">
+              <div class="content1-header">
+                {{ item2. title}}
+              </div>
+              <div class="content1-body">
+                {{ item2. content}}
+              </div>
+              <div class="content1-law">
+                  <div class="law-name">
+                    {{ item2. lawTitle}}
+                  </div>
+                  <div class="law-content">
+                    {{ item2. lawContent}}
+                  </div>
+              </div>
+            </div>
 
-        <div class="ai-create-content2">
-          <div class="content2-header">
-            <p>强调高风险账号逾期后果:移交总部监管并追责</p>
+            <div class="ai-create-content2" v-else>
+              <div class="content2-header">
+                <p>{{ item2. title}}</p>
+              </div>
+              <div class="content2-body">
+                <p>{{ item2. content}}</p>
+              </div>
+            </div>
           </div>
-          <div class="content2-body">
-            <p>一旦标识为高风险账户，意味着您的案件会由总部直接运营直接监管</p>
-          </div>
+          
         </div>
+        
+        </div>
+        
       </div>
     </div>
   </div>
-  <!-- <Popup v-model:visible="showPop" :animation="true" :auto-index="true" ref="popupRef" >
-      <div>
-          电话:<input type="number" v-model="tel"/>
-         <button @click="callPhone">拨打 </button>
-         页面
-      </div>
-   </Popup> -->
 </template>
 <style lang="css">
 .chat-window {
@@ -202,6 +215,11 @@ onMounted(() => {
   background-color: beige;
 }
 
+.left-body{
+  height: 90%;
+  padding: 10px;
+  overflow-y: scroll;
+}
 .message {
   margin-bottom: 10px;
   display: flex;
@@ -275,13 +293,24 @@ onMounted(() => {
 .page-body{
   display: flex;
   flex-direction: row;
+  /* flex-wrap: wrap; */
+  gap: 50px; /* 设置垂直和水平间隔为 20 像素 */
 }
 .ai{
-  margin-left: 200px;
+  /* margin-left: 200px; */
 }
+.user-point{
+  width: 100%;
+  background-color: hwb(34 53% 8%);
+  color: #000;
+  display: flex;
+  align-items: center;
+}
+
 .user-question{
   width: 100%;
   height: 60px;
+  margin-top: 20px;
   background-color: #87ceeb;
   color: #000;
   display: flex;

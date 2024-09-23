@@ -24,18 +24,13 @@ public class SuggestController {
 
 
     @GetMapping("/getSuggest")
-    public RespVO<AiSuggestion> getAiSuggestion(String context) {
-        try(InputStream in = this.getClass().getClassLoader().getResourceAsStream("ai-suggest-match.json")) {
+    public RespVO<Map<String,Object>> getAiSuggestion(String context) {
+        try(InputStream in = this.getClass().getClassLoader().getResourceAsStream("AIAgent.json")) {
+            Thread.sleep(2000);
             byte[] bytes = IoUtil.readBytes(in);
             String json = StrUtil.str(bytes, StandardCharsets.UTF_8);
-            List<Map<String, Object>> mapList = JSONUtil.toBean(json, new TypeReference<List<Map<String, Object>>>() {
-            }, true);
-
-            for (Map<String, Object> map : mapList) {
-                if (StrUtil.contains((String)map.get("context"),context)){
-                    return RespVO.success(BeanUtil.toBean(map.get("suggest"),AiSuggestion.class));
-                }
-            }
+            return RespVO.success(JSONUtil.toBean(json, new TypeReference<Map<String, Object>>() {
+            },true));
         } catch (Exception e) {
             log.error("发生了异常:",e);
         }

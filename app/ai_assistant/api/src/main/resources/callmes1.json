@@ -1,46 +1,57 @@
 [
   {
     "role": 2,
-    "message": "喂，您好"
+    "channelType": "customer",
+    "text": "喂，您好"
   },
   {
     "role": 1,
-    "message": "你好"
+    "channelType": "agent",
+    "text": "你好"
   },
   {
     "role": 2,
-    "message": "请问您是XXX先生吗？"
+    "channelType": "customer",
+    "text": "请问您是XXX先生吗？"
   },
   {
     "role": 1,
-    "message": "是的，你是哪里？"
+    "channelType": "agent",
+    "text": "是的，你是哪里？"
   },
   {
     "role":2,
-    "message": "您好，我是XX风控调查室，您在我司办理的三万八千元借款从本月5号开始账户产生逾期，但您一直都没有处理，是吧X先生。"
+    "channelType": "customer",
+    "text": "您好，我是XX风控调查室，您在我司办理的三万八千元借款从本月5号开始账户产生逾期，但您一直都没有处理，是吧X先生。"
   },
   {
     "role":1,
-    "message": "是的，我晚点处理，今天太忙了，忘了还款了。"
+    "channelType": "agent",
+    "text": "是的，我晚点处理，今天太忙了，忘了还款了。"
   },
   {
     "role": 2,
-    "message": "好的先生，您今天几点方便处理呢？"
+    "channelType": "customer",
+    "text": "好的先生，您今天几点方便处理呢？"
   },
   {
     "role": 1,
-    "message": "下午5点吧"
+    "channelType": "agent",
+    "text": "下午5点吧"
   },
   {
     "role": 2,
-    "message": "是这样的下午这个时间来不及了，因为现在您之前出现过晚还记录，所以说账单这边存在风险，最晚的话只能帮您保留到今天十点半这个时间，麻烦您赶在十点半之前，还有四十分钟，您抽空把钱存进来，不要因为这个一起影响您个人信用我看您这个资之前，您的资质是比较好的"
+    "channelType": "customer",
+    "text": "是这样的下午这个时间来不及了，因为现在您之前出现过晚还记录，所以说账单这边存在风险，最晚的话只能帮您保留到今天十点半这个时间，麻烦您赶在十点半之前，还有四十分钟，您抽空把钱存进来，不要因为这个一起影响您个人信用我看您这个资之前，您的资质是比较好的"
   },
   {
     "role": 1,
-    "message": "好吧"
+    "channelType": "agent",
+    "text": "好吧"
   },
   {
     "role": 2,
-    "message": "好的，那您尽快，再见"
+    "channelType": "customer",
+    "text": "好的，那您尽快，再见"
   }
 ]
