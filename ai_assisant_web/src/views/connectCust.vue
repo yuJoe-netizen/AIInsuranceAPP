@@ -14,10 +14,10 @@ const data =reactive({
 const scrollContainer = ref(null);
 // const listUser = []
 onMounted(() => {
-  setTimeout(() => {
-      console.log('内容增加时', scrollContainer.value.scrollHeight);
-      scrollContainer.value.scrollTop = scrollContainer.value.scrollHeight;
-    }, 20); // 注意这里需要延迟20ms正好可以获取到更新后的dom节点
+  // setTimeout(() => {
+  //     console.log('内容增加时', scrollContainer.value.scrollHeight);
+  //     scrollContainer.value.scrollTo({ top: scrollContainer.value.scrollHeight });
+  //   }, 20); // 注意这里需要延迟20ms正好可以获取到更新后的dom节点
 
   const ws = new WebSocket('ws://localhost:8891/call?userId=yujiangjun')
   ws.onopen = function () {
@@ -216,7 +216,7 @@ async function getRightData(){
 }
 
 .left-body{
-  height: 90%;
+  height: 560px;
   padding: 10px;
   overflow-y: scroll;
 }
