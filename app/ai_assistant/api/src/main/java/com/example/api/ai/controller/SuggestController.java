@@ -41,4 +41,16 @@ public class SuggestController {
         }
         throw new RuntimeException("发生了异常");
     }
+
+    @GetMapping("/getCuiShouInfo")
+    public RespVO<Map<String,Object>> getCuiShouInfo(String context) {
+        try (InputStream ins = this.getClass().getClassLoader().getResourceAsStream("cui-shou.json")){
+            byte[] bytes = IoUtil.readBytes(ins, ins.available());
+            String json = new String(bytes, StandardCharsets.UTF_8);
+            return RespVO.success(JSONUtil.toBean(json, new TypeReference<Map<String, Object>>() {}, true));
+        } catch (Exception e) {
+            log.info("e:",e);
+        }
+        throw new RuntimeException("发送了错误");
+    }
 }
