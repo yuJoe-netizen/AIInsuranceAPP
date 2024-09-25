@@ -135,7 +135,7 @@ public class WebSocketUtil {
                 Session session = user.getSession();
                 synchronized (session) {
                     if (session.isOpen()) {
-                        session.getAsyncRemote().sendText(message);
+                        session.getBasicRemote().sendText(message);
                     }
                 }
             }
