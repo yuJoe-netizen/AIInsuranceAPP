@@ -132,7 +132,12 @@ public class WebSocketUtil {
     public void sendMessageTo(String message, String userId) throws IOException {
         for (WebSocketSession user : userMap.values()) {
             if (user.getUserId().equals(userId)) {
-                user.getSession().getAsyncRemote().sendText(message);
+                Session session = user.getSession();
+                synchronized (session) {
+                    if (session.isOpen()) {
+                        session.getAsyncRemote().sendText(message);
+                    }
+                }
             }
         }
     }

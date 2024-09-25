@@ -184,14 +184,14 @@ async function getCuiShouInfo() {
         </div>
         <div class="chat-messages">
           <div v-for="(item, index) in data.message" :key="index">
-            <div class="message received-message" v-if="item.channelType === 'agent'">
+            <div class="message received-message" v-if="item.channelType === 'customer'">
               <img :src="userAvatar" alt="接收者头像" />
               <div class="message-boarder-send">
                 <div class="message-text">{{ item.text }}</div>
               </div>
             </div>
             <div style="height: 10px"></div>
-            <div class="message sent-message" v-if="item.channelType === 'customer'">
+            <div class="message sent-message" v-if="item.channelType === 'agent'">
               <div class="message-boarder-rece">
                 <div class="message-text">{{ item.text }}</div>
               </div>
