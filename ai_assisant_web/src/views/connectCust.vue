@@ -136,7 +136,7 @@ async function getCuiShouInfo() {
         <!--逾期内容-->
         <div class="overdue">
           <div class="header"><span>最高逾期天数：  {{cuiShouInfo.data.highOverdueDay}}天</span></div>
-          <div class="context"><span>{{ cuiShouInfo.data.overdueSumUp }}</span></div>
+          <div class="context"><span style="font-size: 14px;">{{ cuiShouInfo.data.overdueSumUp }}</span></div>
         </div>
 
         <!--建议策略-->
@@ -144,7 +144,7 @@ async function getCuiShouInfo() {
           <div class="header"><span style="font-weight: bold;">本次建议策略</span></div>
           <div class="context">
             <div>施压点: <span style="font-weight: bold;background-color: #fe864f;">{{ cuiShouInfo.data.pressurePoint }}</span></div>
-            <div style="display: flex;">{{ cuiShouInfo.data.adviceStrategies }}</div>
+            <div style="display: flex;font-size: 14px;">{{ cuiShouInfo.data.adviceStrategies }}</div>
           </div>
         </div>
 
@@ -157,7 +157,7 @@ async function getCuiShouInfo() {
               <div class="desc"><span style="font-weight: bold;">{{ item.communicatePoint }}</span></div>
             </div>
             <div class="body-item">
-              <div>{{ item.communicateContent }}</div>
+              <div style="font-size: 14px;">{{ item.communicateContent }}</div>
             </div>
           </div>
           <!-- <div class="body">
@@ -177,7 +177,7 @@ async function getCuiShouInfo() {
     <div>
       <div class="chat-window">
         <div class="chat-header">
-          <img :src="phone" @click="addData" />
+          <!-- <img :src="phone" @click="addData" /> -->
           <div id="call">
             <div></div>
           </div>
@@ -278,6 +278,7 @@ async function getCuiShouInfo() {
 .cc .body{
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 .cc .body .body-item{
   display: flex;
@@ -287,6 +288,7 @@ async function getCuiShouInfo() {
 
 .cc .body .body-item .desc{
   width: 90%;
+  margin-left: 5px;
 }
 .suggest{
   width: 100%;
@@ -311,7 +313,7 @@ async function getCuiShouInfo() {
   margin-top: 30px;
 }
 .overdue{
-  width: 90%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -342,7 +344,7 @@ async function getCuiShouInfo() {
 .sub-header{
   display: flex;
   width: 100%;
-  height: 50px;
+  height: 30px;
   background-color: #bbbdc2;
   /* justify-content: center; */
   align-items: center;
@@ -371,14 +373,14 @@ async function getCuiShouInfo() {
   background-color: #4285f4;
   color: black;
   padding: 10px;
-  justify-content: flex-end;
+  justify-content: center;
   display: flex;
 }
 
 .ai-header {
   background-color: #919295;
   color: #fffdfd;
-  padding: 10px;
+  padding: 5px;
   display: flex;
   justify-content: center;
 }
@@ -389,7 +391,7 @@ async function getCuiShouInfo() {
 }
 
 .chat-messages {
-  height: 80%;
+  height: 90%;
   padding: 10px;
   overflow-y: scroll;
   background-color: beige;
