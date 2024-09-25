@@ -4,7 +4,7 @@ import axios from '../axiosInstance.js'
 import { ref, reactive } from 'vue'
 import userAvatar from '../assets/user.png'
 import kefu from '../assets/kefu.png'
-import phone from '../assets/phone.png'
+//import phone from '../assets/phone.png'
 import rebot from '../assets/rebot.png'
 import { onMounted } from 'vue'
 const data = reactive({
