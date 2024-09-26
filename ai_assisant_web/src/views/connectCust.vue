@@ -44,8 +44,8 @@ onMounted(() => {
     height: '50px',
     instanceId: 'aiHelpAgent',
     regionId: 'cn-shanghai',
-    ajaxOrigin: 'http://127.0.0.1:8891',
-    ajaxPath: '/aliyun/ccc/api',
+    // ajaxOrigin: 'http://127.0.0.1:8891',
+    ajaxPath: '/api/aliyun/ccc/api',
     onInit() {
       window.workbench.register() // 想实现自动上线在此注册
     },
