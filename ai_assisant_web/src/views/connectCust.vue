@@ -120,7 +120,7 @@ async function getCuiShouInfo() {
 
         
         <div class="sub-header">
-          <div><span style="font-weight: bold;color: black;margin-left: 30px">历史逾期总结</span><span style="margin-left: 10px;">逾期{{cuiShouInfo.data.overdueTimes}}次</span></div>
+          <div><span style="font-weight: bold;color: black;margin-left: 8px">历史逾期总结</span><span style="margin-left: 10px;">逾期{{cuiShouInfo.data.overdueTimes}}次</span></div>
         </div>
 
         <!--时间轴-->
@@ -150,7 +150,7 @@ async function getCuiShouInfo() {
 
         <!--沟通大纲-->
         <div class="cc">
-          <div class="heder"><span style="font-weight: bold;">沟通大纲</span></div>
+          <div class="header"><span style="font-weight: bold;">沟通大纲</span></div>
           <div class="body" v-for="(item,index) in cuiShouInfo.data.communicateOutline" :key="index">
             <div class="body-item">
               <div style="width: 10px;height: 25px; background-color: #fe864f;"></div>
@@ -269,7 +269,7 @@ async function getCuiShouInfo() {
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-top: 210px;
+  margin-top: 150px;
 }
 .cc .header {
   width: 100%;
@@ -297,7 +297,7 @@ async function getCuiShouInfo() {
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .suggest .header{
@@ -310,23 +310,23 @@ async function getCuiShouInfo() {
   display: flex;
   flex-direction: column;
   /* align-items: center; */
-  margin-top: 30px;
+  margin-top: 7px;
 }
 .overdue{
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 5px;
   flex-direction: column;
 }
 .overdue .header{
-  width: 90%;
+  width: 100%;
 }
 .overdue .context{
-  width: 90%;
+  width: 100%;
   background-color: #2181b6;
-  margin-top: 20px;
+  margin-top: 3px;
 }
 .time-item{
   width: 30%;
@@ -336,7 +336,7 @@ async function getCuiShouInfo() {
 .time{
   width: 100%;
   height: 20px;
-  margin-top: 20px;
+  margin-top: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -400,7 +400,7 @@ async function getCuiShouInfo() {
 .left-body {
   height: 560px;
   padding: 10px;
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 .message {
   margin-bottom: 10px;
