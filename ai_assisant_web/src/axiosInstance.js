@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // 设置基础URL
-   baseURL: "http://127.0.0.1:8891/", // 设置基础URL
+   baseURL: "/api", // 设置基础URL
   timeout: 5000, // 请求超时时间
 });
 
