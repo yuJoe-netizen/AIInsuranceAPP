@@ -77,6 +77,9 @@ public class WebSocketUtil {
             // 添加登录用户数量
             addLoginCount();
             userMap.put(userId, webSocketSession);
+        }else {
+            userMap.remove(userId);
+            userMap.put(userId, webSocketSession);
         }
 //        session.getAsyncRemote().sendText("接收到你的链接");
 //        try(InputStream ins =this.getClass().getClassLoader().getResourceAsStream("callmes1.json");

@@ -24,7 +24,7 @@ onMounted(() => {
   // 催收信息
   getCuiShouInfo()
   //
-  const ws = new WebSocket('ws://172.22.229.128:8891/call?userId=yujiangjun')
+  const ws = new WebSocket('wss://vitam.cn:443/call?userId=yujiangjun')
   ws.onopen = function () {}
   ws.onerror = function (e) {
     console.log(`发生了websocket错误:${e}`)
