@@ -130,12 +130,16 @@ public class WebSocketUtil {
      * @Return: void
      **/
     public void sendMessageTo(String message, String userId) throws IOException {
+        log.info("userMap:{}", JSONUtil.toJsonStr(userMap));
         for (WebSocketSession user : userMap.values()) {
             if (user.getUserId().equals(userId)) {
+                log.info("发送消息");
                 Session session = user.getSession();
                 synchronized (session) {
                     if (session.isOpen()) {
+                        log.info("开始发送消息");
                         session.getBasicRemote().sendText(message);
+                        log.info("结束发送消息");
                     }
                 }
             }

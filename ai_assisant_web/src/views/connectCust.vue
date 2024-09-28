@@ -24,7 +24,7 @@ onMounted(() => {
   // 催收信息
   getCuiShouInfo()
   //
-  const ws = new WebSocket('ws://localhost:8891/call?userId=yujiangjun')
+  const ws = new WebSocket('ws://172.22.229.128:8891/call?userId=yujiangjun')
   ws.onopen = function () {}
   ws.onerror = function (e) {
     console.log(`发生了websocket错误:${e}`)
@@ -45,7 +45,7 @@ onMounted(() => {
     instanceId: 'aiHelpAgent',
     regionId: 'cn-shanghai',
     // ajaxOrigin: 'http://127.0.0.1:8891',
-    ajaxPath: '/api/aliyun/ccc/api',
+    ajaxPath: '/aliyun/ccc/api',
     onInit() {
       window.workbench.register() // 想实现自动上线在此注册
     },
