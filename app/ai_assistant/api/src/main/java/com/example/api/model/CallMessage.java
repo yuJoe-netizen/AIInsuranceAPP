@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class CallMessage {
     private Integer role;
-    private String message;
+    private String channelType;
+    private String text;
 }
