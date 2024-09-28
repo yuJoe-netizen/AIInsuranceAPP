@@ -212,7 +212,7 @@ async function getCuiShouInfo() {
             未完成:<span style="font-weight: 700; color: #fe864f">{{ pressurePoint }}</span>
           </div>
         </div>
-        <div class="left-body">
+        <div class="right-body">
           <div v-for="(item1, index1) in questionData.data" :key="index1">
             <div class="user-question">
               <img :src="userAvatar" alt="接收者头像" class="ai-user-avatar" />
@@ -401,6 +401,11 @@ async function getCuiShouInfo() {
   height: 560px;
   padding: 10px;
   overflow-y: hidden;
+}
+.right-body {
+  height: 560px;
+  padding: 10px;
+  overflow-y: scroll;
 }
 .message {
   margin-bottom: 10px;
