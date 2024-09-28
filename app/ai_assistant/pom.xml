@@ -16,7 +16,6 @@
 		<module>base</module>
 		<module>common</module>
 		<module>api</module>
-		<module>mq</module>
 	</modules>
 	<name>ai_assistant</name>
 	<description>Demo project for Spring Boot</description>
