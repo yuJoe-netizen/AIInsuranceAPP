@@ -3,9 +3,11 @@ package com.example.api.config;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
+import com.example.api.aliyun.init.FixCallMessagePusher;
 import com.example.api.model.CallMessage;
 import com.example.common.WebSocketSession;
 import com.example.common.enums.MessageRoleEnum;
+import com.example.common.util.SpringContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -65,6 +67,7 @@ public class WebSocketUtil {
      **/
     @OnOpen
     public void onOpen(Session session) {
+        log.info("ws链接服务端");
         Map<String, List<String>> requestParameterMap = session.getRequestParameterMap();
         String userId = requestParameterMap.get("userId").get(0);
         WebSocketSession webSocketSession = new WebSocketSession();
@@ -81,6 +84,8 @@ public class WebSocketUtil {
             userMap.remove(userId);
             userMap.put(userId, webSocketSession);
         }
+        FixCallMessagePusher fixCallMessagePusher = SpringContext.getBean("fixCallMessagePusher", FixCallMessagePusher.class);
+        fixCallMessagePusher.init();
 //        session.getAsyncRemote().sendText("接收到你的链接");
 //        try(InputStream ins =this.getClass().getClassLoader().getResourceAsStream("callmes1.json");
 //            BufferedInputStream bufferedInputStream = new BufferedInputStream(ins);
@@ -124,7 +129,7 @@ public class WebSocketUtil {
      **/
     @OnError
     public void onError(Throwable error) {
-        log.info("onError:{}", error.getMessage());
+        log.info("onError:", error);
     }
 
     /**

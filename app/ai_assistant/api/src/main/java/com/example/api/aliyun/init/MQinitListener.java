@@ -6,19 +6,31 @@ import com.aliyun.mq.http.model.Message;
 import com.example.api.config.WebSocketUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @Slf4j
-@AllArgsConstructor
 public class MQinitListener implements CommandLineRunner {
 
     private final MQConsumer mqConsumer;
     private final WebSocketUtil webSocketUtil;
+    private final FixCallMessagePusher fixCallMessagePusher;
+
+    @Value("${ai.agent.text.output.type}")
+    private Integer sendMessageSwitch;
+
+    public MQinitListener(MQConsumer mqConsumer, WebSocketUtil webSocketUtil, FixCallMessagePusher fixCallMessagePusher) {
+        this.mqConsumer = mqConsumer;
+        this.webSocketUtil = webSocketUtil;
+        this.fixCallMessagePusher = fixCallMessagePusher;
+    }
+
     @Override
     public void run(String... args) throws Exception {
         log.info("项目初始化任务执行。。。。。。");
@@ -42,14 +54,18 @@ public class MQinitListener implements CommandLineRunner {
             }
             // Topic中没有消息可消费。
             if (messages == null || messages.isEmpty()) {
-                log.info("{}: no new message, continue!",Thread.currentThread().getName());
+//                log.info("{}: no new message, continue!",Thread.currentThread().getName());
                 continue;
             }
 
             // 处理业务逻辑。
             for (Message message : messages) {
                 log.info("body:{}",message.getMessageBodyString());
-                webSocketUtil.sendMessageTo(message.getMessageBodyString(),"yujiangjun");
+                if (Objects.equals(sendMessageSwitch,1)){
+                    webSocketUtil.sendMessageTo(message.getMessageBodyString(),"yujiangjun");
+                }else {
+                    fixCallMessagePusher.pushMsg();
+                }
             }
 
             // 消息重试时间到达前若不确认消息消费成功，则消息会被重复消费。
