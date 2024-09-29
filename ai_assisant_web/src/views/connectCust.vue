@@ -32,7 +32,7 @@ onMounted(() => {
   ws.onmessage = function (e) {
     // getRightData()
     let mes = JSON.parse(e.data)
-    if (mes.channelType === 'agent') {
+    if (mes.channelType === 'customer') {
       console.log(mes)
       console.log('发起请求获取问题点')
       getRightData(mes.text)
