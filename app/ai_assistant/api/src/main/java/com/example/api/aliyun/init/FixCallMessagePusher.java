@@ -8,13 +8,11 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 按照预设文件输出通话文本
@@ -47,22 +45,30 @@ public class FixCallMessagePusher {
         long needTime=0L;
         for (CallMessage message : callMessages) {
             Timer timer = new Timer();
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-                    try {
-                        log.info("发送消息");
-                        webSocketUtil.sendMessageTo(JSONUtil.toJsonStr(message), "yujiangjun");
-                    } catch (IOException e) {
-                        log.info("发送websocket 报文失败:", e);
-                    }
-                }
-            };
+            needTime = (long) (message.getText().length() / 4);
+            try {
+                Thread.sleep(needTime*1000);
+                log.info("发送消息");
+                webSocketUtil.sendMessageTo(JSONUtil.toJsonStr(message), "yujiangjun");
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
 
-            timer.schedule(task, lastTime*1000);
-            needTime = (long) (message.getText().length() / 2);
-            lastTime += needTime;
-            timers.add(timer);
+//            TimerTask task = new TimerTask() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        log.info("发送消息");
+//                        webSocketUtil.sendMessageTo(JSONUtil.toJsonStr(message), "yujiangjun");
+//                    } catch (IOException e) {
+//                        log.info("发送websocket 报文失败:", e);
+//                    }
+//                }
+//            };
+
+//            timer.schedule(task, lastTime*1000);
+//            lastTime += needTime;
+//            timers.add(timer);
         }
     }
 

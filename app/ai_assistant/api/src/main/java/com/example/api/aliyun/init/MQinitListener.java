@@ -4,7 +4,6 @@ import com.aliyun.mq.http.MQConsumer;
 import com.aliyun.mq.http.common.AckMessageException;
 import com.aliyun.mq.http.model.Message;
 import com.example.api.config.WebSocketUtil;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -61,9 +60,12 @@ public class MQinitListener implements CommandLineRunner {
             // 处理业务逻辑。
             for (Message message : messages) {
                 log.info("body:{}",message.getMessageBodyString());
+                log.info("开关:{}",sendMessageSwitch);
                 if (Objects.equals(sendMessageSwitch,1)){
+                    log.info("推送实时语音文本");
                     webSocketUtil.sendMessageTo(message.getMessageBodyString(),"yujiangjun");
                 }else {
+                    log.info("推送预设文本");
                     fixCallMessagePusher.pushMsg();
                 }
             }
