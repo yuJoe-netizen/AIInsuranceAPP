@@ -6,7 +6,7 @@ import userAvatar from '../assets/user.png'
 import kefu from '../assets/kefu.png'
 //import phone from '../assets/phone.png'
 import rebot from '../assets/rebot.png'
-import { onMounted } from 'vue'
+import { onMounted,nextTick } from 'vue'
 const data = reactive({
   message: [],
   rightDatas: []
@@ -18,6 +18,11 @@ const questionData = reactive({
 const cuiShouInfo = reactive({
   data:{}
 })
+// 聊天框容器
+const chatContainer = ref(null)
+// 右边的tip容器
+const tipContainer = ref(null)
+
 onMounted(() => {
   // 获取施压点
   getPressurePoint()
@@ -37,7 +42,9 @@ onMounted(() => {
       console.log('发起请求获取问题点')
       getRightData(mes.text)
     }
-    data.message.push(JSON.parse(e.data))
+    // data.message.push(JSON.parse(e.data))
+    streamOutCallText(mes,data.message)
+    move2BottomForChat()
   }
   window.workbench = new window.WorkbenchSdk({
     dom: 'call',
@@ -75,6 +82,25 @@ onMounted(() => {
   })
 })
 
+// 流式输出文字到页面上
+function streamOutCallText(message,data){
+  let {channelType,text} = {...message}
+  let textRef = ref('')
+  let index=0;
+  const intervalId = setInterval(() => {
+    if (index < text.length) {
+      textRef.value += text[index++]
+    } else {
+      move2BottomForChat()
+      clearInterval(intervalId)
+    }
+  }, 30)
+  data.push({
+    channelType:channelType,
+    text:textRef
+  })
+}
+
 async function getRightData(mesTxt) {
   let resp = await axios.get('/suggest/getSuggest', {
     params: {
@@ -85,7 +111,7 @@ async function getRightData(mesTxt) {
   resp.data.forEach((e) => {
     questionData.data.push(e)
   })
-
+  move2BottomForTips()
   console.log(questionData.data)
 }
 
@@ -106,6 +132,26 @@ async function getCuiShouInfo() {
   })
   cuiShouInfo.data= resp.data
   console.log('催收信息：',cuiShouInfo.data)
+}
+function move2BottomForChat(){
+  nextTick(() => {
+    let scrollElem = chatContainer.value
+    if (!scrollElem) return
+    scrollElem.scrollTo({
+      top: scrollElem.scrollHeight,
+      behavior: 'smooth'
+    })
+  })
+}
+function move2BottomForTips(){
+  nextTick(() => {
+    let scrollElem = tipContainer.value
+    if (!scrollElem) return
+    scrollElem.scrollTo({
+      top: scrollElem.scrollHeight,
+      behavior: 'smooth'
+    })
+  })
 }
 </script>
 <template>
@@ -128,9 +174,6 @@ async function getCuiShouInfo() {
           <div class="time-item" v-for="(item,index) in cuiShouInfo.data.overdueMonthList" :key="index">
             {{ item.overdueMonth }}
           </div>
-          <!-- <div class="time-item">4/1/2024</div>
-          <div class="time-item">2/1/2024</div>
-          <div class="time-item">12/1/2023</div> -->
         </div>
 
         <!--逾期内容-->
@@ -160,15 +203,6 @@ async function getCuiShouInfo() {
               <div style="font-size: 14px;">{{ item.communicateContent }}</div>
             </div>
           </div>
-          <!-- <div class="body">
-            <div class="body-item">
-              <div style="width: 10px;height: 25px; background-color: #fe864f;"></div>
-              <div class="desc"><span style="font-weight: bold;">理解与协助</span></div>
-            </div>
-            <div class="body-item">
-              <div>展示理解客户困难，提供专业建议，协助客户理解逾期后果，引导其采取行动</div>
-            </div>
-          </div> -->
         </div>
       </div>
 
@@ -182,7 +216,7 @@ async function getCuiShouInfo() {
             <div></div>
           </div>
         </div>
-        <div class="chat-messages">
+        <div class="chat-messages" ref="chatContainer">
           <div v-for="(item, index) in data.message" :key="index">
             <div class="message received-message" v-if="item.channelType === 'customer'">
               <img :src="userAvatar" alt="接收者头像" />
@@ -212,7 +246,7 @@ async function getCuiShouInfo() {
             未完成:<span style="font-weight: 700; color: #fe864f">{{ pressurePoint }}</span>
           </div>
         </div>
-        <div class="right-body">
+        <div class="right-body" ref="tipContainer">
           <div v-for="(item1, index1) in questionData.data" :key="index1">
             <div class="user-question">
               <img :src="userAvatar" alt="接收者头像" class="ai-user-avatar" />
