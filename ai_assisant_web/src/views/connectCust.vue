@@ -4,7 +4,10 @@ import axios from '../axiosInstance.js'
 import { ref, reactive } from 'vue'
 import userAvatar from '../assets/user.png'
 import kefu from '../assets/kefu.png'
+import play from '../assets/play-circle.png'
+import pause from '../assets/play.png'
 //import phone from '../assets/phone.png'
+import callAudio from '../assets/call.mp3'
 import rebot from '../assets/rebot.png'
 import { onMounted,nextTick } from 'vue'
 const data = reactive({
@@ -22,6 +25,12 @@ const cuiShouInfo = reactive({
 const chatContainer = ref(null)
 // 右边的tip容器
 const tipContainer = ref(null)
+// 音频播放开关
+const audioPlaySwitch = ref(true)
+
+// 音频播放
+const audio = ref(new Audio())
+const voicePath = ref('')
 
 onMounted(() => {
   // 获取施压点
@@ -153,6 +162,33 @@ function move2BottomForTips(){
     })
   })
 }
+// 播放
+function playAudio(){
+  
+  // 本地链接
+  voicePath.value = new URL('@/assets/call.mp3', import.meta.url).href
+  nextTick(() => {
+      audio.value?.play()
+      audioPlaySwitch.value=!audioPlaySwitch.value
+      console.log('通话文本输出方式:',audioPlaySwitch.value)
+    })
+
+}
+// 暂停
+function pauseAudio(){
+  
+  // 本地链接
+  voicePath.value = new URL('@/assets/call.mp3', import.meta.url).href
+  nextTick(() => {
+      audio.value?.pause()
+      audioPlaySwitch.value=!audioPlaySwitch.value
+    })
+
+}
+
+function audioPlayEnd(){
+  audioPlaySwitch.value=true
+}
 </script>
 <template>
   <div class="page-body">
@@ -212,6 +248,12 @@ function move2BottomForTips(){
       <div class="chat-window">
         <div class="chat-header">
           <!-- <img :src="phone" @click="addData" /> -->
+           <div class="player">
+            <img v-if="audioPlaySwitch" :src="play" @click="playAudio" />
+            <img v-else :src="pause" @click="pauseAudio" />
+            
+            <audio ref="audio" controls hidden="true" :src="voicePath" @ended="audioPlayEnd"/>
+          </div>
           <div id="call">
             <div></div>
           </div>
@@ -296,6 +338,11 @@ function move2BottomForTips(){
   </div>
 </template>
 <style lang="css">
+.player{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .cc{
   width: 100%;
   height: 25px;
@@ -421,7 +468,7 @@ function move2BottomForTips(){
 
 .chat-header img {
   margin: 0;
-  width: 12%;
+  width: 70%;
 }
 
 .chat-messages {
@@ -603,5 +650,14 @@ function move2BottomForTips(){
   color: #000;
   font-size: 12px;
   /* font-weight: 700; */
+}
+.chat-bottom{
+  display: flex;
+  width: 100%;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
 }
 </style>
