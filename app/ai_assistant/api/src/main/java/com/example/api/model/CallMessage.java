@@ -7,4 +7,5 @@ public class CallMessage {
     private Integer role;
     private String channelType;
     private String text;
+    private Long delay;
 }

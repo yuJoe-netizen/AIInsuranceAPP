@@ -3,6 +3,7 @@ package com.example.api.aliyun.init;
 import com.aliyun.mq.http.MQConsumer;
 import com.aliyun.mq.http.common.AckMessageException;
 import com.aliyun.mq.http.model.Message;
+import com.example.api.ai.config.GetCallTextSetting;
 import com.example.api.config.WebSocketUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,13 +22,13 @@ public class MQinitListener implements CommandLineRunner {
     private final WebSocketUtil webSocketUtil;
     private final FixCallMessagePusher fixCallMessagePusher;
 
-    @Value("${ai.agent.text.output.type}")
-    private Integer sendMessageSwitch;
+    private final GetCallTextSetting getCallTextSetting;
 
-    public MQinitListener(MQConsumer mqConsumer, WebSocketUtil webSocketUtil, FixCallMessagePusher fixCallMessagePusher) {
+    public MQinitListener(MQConsumer mqConsumer, WebSocketUtil webSocketUtil, FixCallMessagePusher fixCallMessagePusher, GetCallTextSetting getCallTextSetting) {
         this.mqConsumer = mqConsumer;
         this.webSocketUtil = webSocketUtil;
         this.fixCallMessagePusher = fixCallMessagePusher;
+        this.getCallTextSetting = getCallTextSetting;
     }
 
     @Override
@@ -58,6 +59,7 @@ public class MQinitListener implements CommandLineRunner {
             }
 
             // 处理业务逻辑。
+            Integer sendMessageSwitch = getCallTextSetting.getSendMessageSwitch();
             for (Message message : messages) {
                 log.info("body:{}",message.getMessageBodyString());
                 log.info("开关:{}",sendMessageSwitch);
