@@ -7,7 +7,7 @@ import kefu from '../assets/kefu.png'
 import play from '../assets/play-circle.png'
 import pause from '../assets/play.png'
 //import phone from '../assets/phone.png'
-import callAudio from '../assets/call.mp3'
+// import callAudio from '../assets/call.mp3'
 import rebot from '../assets/rebot.png'
 import { onMounted,nextTick } from 'vue'
 const data = reactive({
@@ -173,6 +173,7 @@ function playAudio(){
       console.log('通话文本输出方式:',audioPlaySwitch.value)
     })
 
+    axios.post('/callText/push')
 }
 // 暂停
 function pauseAudio(){
