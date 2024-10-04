@@ -41,11 +41,9 @@ public class FixCallMessagePusher {
             return;
         }
         List<CallMessage> callMessages = getMessageFromFile();
-        long lastTime=0L;
-        long needTime=0L;
+
         for (CallMessage message : callMessages) {
-            Timer timer = new Timer();
-            needTime = (long) (message.getText().length() / 4);
+            long needTime=message.getDelay();
             try {
                 Thread.sleep(needTime*1000);
                 log.info("发送消息");
@@ -53,22 +51,6 @@ public class FixCallMessagePusher {
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
-
-//            TimerTask task = new TimerTask() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        log.info("发送消息");
-//                        webSocketUtil.sendMessageTo(JSONUtil.toJsonStr(message), "yujiangjun");
-//                    } catch (IOException e) {
-//                        log.info("发送websocket 报文失败:", e);
-//                    }
-//                }
-//            };
-
-//            timer.schedule(task, lastTime*1000);
-//            lastTime += needTime;
-//            timers.add(timer);
         }
     }
 
