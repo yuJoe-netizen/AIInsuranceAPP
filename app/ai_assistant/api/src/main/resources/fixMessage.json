@@ -47,32 +47,32 @@
   {
     "channelType": "customer",
     "text": "55分来不及，我肯定会存上去的，晚上8点钟左右可以吗？",
-    "delay": 5
+    "delay": 6
   },
   {
     "channelType": "agent",
     "text": "那确实没有办法等您这么久，我们系统是以55分上传的数据为准。",
-    "delay": 5
+    "delay": 6
   },
   {
     "channelType": "customer",
     "text": "可以，那就不要还了，你们想干嘛就干嘛。",
-    "delay": 3
-  },
-  {
-    "channelType": "agent",
-    "text": "好的，那我这边会直接上传您的征信数据，所产生的影响，是要由您本人承担的。",
-    "delay": 7
-  },
-  {
-    "channelType": "customer",
-    "text": "哪有逾期一天就影响征信的？你们这个也太不正规了！",
     "delay": 4
   },
   {
     "channelType": "agent",
+    "text": "好的，那我这边会直接上传您的征信数据，所产生的影响，是要由您本人承担的。",
+    "delay": 8
+  },
+  {
+    "channelType": "customer",
+    "text": "哪有逾期一天就影响征信的？你们这个也太不正规了！",
+    "delay": 6
+  },
+  {
+    "channelType": "agent",
     "text": "我这边也要跟您说一下，您做的是无抵押的信用贷，它不同于车贷、房贷，是没有抵押物的，您自己也可以打开APP去看一下您的贷款合同。",
-    "delay": 12
+    "delay": 14
   },
   {
     "channelType": "customer",
@@ -82,16 +82,16 @@
   {
     "channelType": "agent",
     "text": "是的，没办法等您这么久，系统上是以4.55分的入账结果为准的，我这边先不打扰您嘞，再见。",
-    "delay": 8
+    "delay": 9
   },
   {
     "channelType": "customer",
     "text": "我跟你讲，我今天会把钱存上去的，如果还是影响了我的征信的话，我是会去投诉你们公司的。",
-    "delay": 8
+    "delay": 9
   },
   {
     "channelType": "agent",
     "text": "您可以登录APP看一下您的贷款合同，也可以打印一份征信报告看看，我们是会以55分的入账结果为准，祝您生活愉快，再见。",
-    "delay": 12
+    "delay": 13
   }
 ]

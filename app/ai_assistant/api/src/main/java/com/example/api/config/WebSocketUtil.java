@@ -1,10 +1,7 @@
 package com.example.api.config;
 
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSONUtil;
 import com.example.api.aliyun.init.FixCallMessagePusher;
-import com.example.api.model.CallMessage;
 import com.example.common.WebSocketSession;
 import com.example.common.enums.MessageRoleEnum;
 import com.example.common.util.SpringContext;
@@ -13,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
-import java.io.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -119,6 +116,8 @@ public class WebSocketUtil {
 //        log.info("关闭连接触发事件!已断开用户: " + userId);
 //        log.info("当前在线人数: " + loginCount);
 //        System.out.println("关闭链接");
+        userMap.clear();
+        log.info("连接关闭了，{}", closeReason.getReasonPhrase());
 
     }
 
@@ -129,6 +128,7 @@ public class WebSocketUtil {
      **/
     @OnError
     public void onError(Throwable error) {
+        userMap.clear();
         log.info("onError:", error);
     }
 
