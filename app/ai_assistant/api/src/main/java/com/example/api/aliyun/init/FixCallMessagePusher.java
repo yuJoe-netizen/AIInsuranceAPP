@@ -27,7 +27,6 @@ public class FixCallMessagePusher {
 
     private final WebSocketUtil webSocketUtil;
 
-    private final List<Timer> timers = new ArrayList<>();
 
     public FixCallMessagePusher(WebSocketUtil webSocketUtil) {
         this.webSocketUtil = webSocketUtil;
@@ -43,6 +42,9 @@ public class FixCallMessagePusher {
         List<CallMessage> callMessages = getMessageFromFile();
 
         for (CallMessage message : callMessages) {
+            if (!isStart){
+                break;
+            }
             long needTime=message.getDelay();
             try {
                 Thread.sleep(needTime*1000);
@@ -70,8 +72,5 @@ public class FixCallMessagePusher {
 
     public void init(){
         isStart=false;
-        for (Timer timer : timers) {
-            timer.cancel();
-        }
     }
 }
