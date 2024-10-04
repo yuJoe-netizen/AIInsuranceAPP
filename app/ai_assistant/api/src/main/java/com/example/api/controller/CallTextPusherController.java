@@ -30,8 +30,7 @@ public class CallTextPusherController {
     @PostMapping("/push")
     public RespVO<Void> pushWs(){
         log.info("接收到前端的请求，开始进行ws推送");
-        ExecutorService poll = Executors.newFixedThreadPool(5);
-        poll.submit(fixCallMessagePusher::pushMsg);
+        fixCallMessagePusher.pushMsg();
         log.info("推送完毕。。。。。。。。。");
         return RespVO.success(null);
     }

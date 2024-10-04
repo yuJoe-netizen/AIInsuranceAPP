@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.example.api.config.WebSocketUtil;
 import com.example.api.model.CallMessage;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * 按照预设文件输出通话文本
@@ -23,8 +27,9 @@ public class FixCallMessagePusher {
 
 
     @Getter
+    @Setter
     private boolean isStart=false;
-
+    Future<Boolean> task = null;
     private final WebSocketUtil webSocketUtil;
 
 
@@ -39,21 +44,10 @@ public class FixCallMessagePusher {
             log.info("已经开始推送,无需重新递交推送任务");
             return;
         }
-        List<CallMessage> callMessages = getMessageFromFile();
+        isStart=true;
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-        for (CallMessage message : callMessages) {
-            if (!isStart){
-                break;
-            }
-            long needTime=message.getDelay();
-            try {
-                Thread.sleep(needTime*1000);
-                log.info("发送消息");
-                webSocketUtil.sendMessageTo(JSONUtil.toJsonStr(message), "yujiangjun");
-            } catch (Exception e) {
-                log.error(e.getMessage());
-            }
-        }
+        task = executorService.submit(this::addPushTask);
     }
 
 
@@ -69,8 +63,30 @@ public class FixCallMessagePusher {
         return messages;
     }
 
+    private boolean addPushTask(){
+        List<CallMessage> callMessages = getMessageFromFile();
+
+        for (CallMessage message : callMessages) {
+            long needTime=message.getDelay();
+            try {
+                Thread.sleep(needTime*1000);
+                log.info("发送消息");
+                webSocketUtil.sendMessageTo(JSONUtil.toJsonStr(message), "yujiangjun");
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public void init(){
+        log.info("推送进行初始化。。。");
         isStart=false;
+
+        if (task!=null){
+            task.cancel(true);
+        }
     }
 }
