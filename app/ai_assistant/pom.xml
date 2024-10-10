@@ -38,6 +38,7 @@
 		<hutool.version>5.8.32</hutool.version>
 		<rocketmq.version>2.2.3</rocketmq.version>
 		<mq.sdk.version>1.0.3.2</mq.sdk.version>
+		<aliyun.sdk.core.version>3.7.1</aliyun.sdk.core.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -108,11 +109,6 @@
 			<artifactId>jaxb-core</artifactId>
 			<version>2.3.0</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>javax.activation</groupId>-->
-<!--			<artifactId>activation</artifactId>-->
-<!--			<version>1.1.1</version>-->
-<!--		</dependency>-->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -141,6 +137,11 @@
 				<!--以下版本号请替换为Java SDK的最新版本号-->
 				<version>${mq.sdk.version}</version>
 				<classifier>jar-with-dependencies</classifier>
+			</dependency>
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>${aliyun.sdk.core.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

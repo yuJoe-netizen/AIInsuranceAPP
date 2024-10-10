@@ -51,5 +51,9 @@
             <version>${mq.sdk.version}</version>
             <classifier>jar-with-dependencies</classifier>
         </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+        </dependency>
     </dependencies>
 </project>
