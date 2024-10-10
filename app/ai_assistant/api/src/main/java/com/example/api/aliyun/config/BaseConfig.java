@@ -15,5 +15,5 @@ public class BaseConfig implements Serializable {
     private String accessKeyId;
     private String accessKeySecret;
     private CCCProperties ccc;
-
+    private ASRConfigProperties asr;
 }

@@ -2,15 +2,14 @@ package com.example.api.controller;
 
 import com.example.api.ai.config.GetCallTextSetting;
 import com.example.api.aliyun.init.FixCallMessagePusher;
+import com.example.api.aliyun.utils.ASRUtil;
+import com.example.api.aliyun.vo.ASRResponse;
 import com.example.common.RespVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @RestController
 @RequestMapping("/callText")
@@ -47,5 +46,12 @@ public class CallTextPusherController {
     @GetMapping("/getTextType")
     public RespVO<Integer> changeGetTextType(){
         return RespVO.success(getCallTextSetting.getSendMessageSwitch());
+    }
+
+    @GetMapping("/getAudioTxt")
+    public RespVO<String> getAudioTxt(){
+        ASRResponse response = new ASRResponse();
+        ASRUtil.aiParseAudio("https://gw.alipayobjects.com/os/bmw-prod/0574ee2e-f494-45a5-820f-63aee583045a.wav",response);
+        return RespVO.success(response.getResult());
     }
 }

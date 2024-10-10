@@ -9,6 +9,7 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.example.api.aliyun.config.ASRConfigProperties;
+import com.example.api.aliyun.config.BaseConfig;
 import com.example.api.aliyun.vo.ASRResponse;
 import com.example.common.util.SpringContext;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +49,7 @@ public class ASRUtil {
 
     public static boolean aiParseAudio(String fileLink, ASRResponse response) {
         boolean result = true;
-        ASRConfigProperties configProperties = SpringContext.getBean("aSRConfigProperties", ASRConfigProperties.class);
+        ASRConfigProperties configProperties = SpringContext.getBean("baseConfig", BaseConfig.class).getAsr();
         try {
             String taskId = submitFileTransRequest(configProperties.getAppKey(), fileLink);
             String res = getFileTransResult(taskId);
@@ -62,7 +63,7 @@ public class ASRUtil {
         return result;
     }
 
-    public static String submitFileTransRequest(String appKey, String fileLink) throws ClientException {
+    private static String submitFileTransRequest(String appKey, String fileLink) throws ClientException {
         /*
          * 1. 创建CommonRequest，设置请求参数。
          */
@@ -99,7 +100,7 @@ public class ASRUtil {
          * 3. 提交录音文件识别请求，获取录音文件识别请求任务的ID，以供识别结果查询使用。
          */
         String taskId = null;
-        IAcsClient client = SpringContext.getBean("iAcsClient", IAcsClient.class);
+        IAcsClient client = SpringContext.getBean("acsClient", IAcsClient.class);
         CommonResponse postResponse = client.getCommonResponse(postRequest);
         log.info("提交录音文件识别请求的响应：{}", postResponse.getData());
         if (postResponse.getHttpStatus() == 200) {
@@ -135,7 +136,7 @@ public class ASRUtil {
          * 以轮询的方式进行识别结果的查询，直到服务端返回的状态描述为“SUCCESS”或错误描述，则结束轮询。
          */
         String result = null;
-        IAcsClient client = SpringContext.getBean("iAcsClient", IAcsClient.class);
+        IAcsClient client = SpringContext.getBean("acsClient", IAcsClient.class);
         while (true) {
 
             CommonResponse getResponse = client.getCommonResponse(getRequest);
