@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 
 @Data
@@ -20,6 +21,16 @@ public class AudioText implements Serializable {
      * -- 通话文本
      */
 	private String content ;
+
+    private String roleId;
+    /**
+     * 开始时间
+     */
+    private BigInteger startTime;
+    /**
+     * 结束时间
+     */
+    private BigInteger endTime;
     /**
      *  逻辑删除
      */
