@@ -112,6 +112,7 @@ public class ASRUtil {
                 return taskId;
             }
         }
+        log.info("提交录音文件识别请求失败,原因:{}",JSONUtil.toJsonStr(postResponse));
         throw new RuntimeException("提交录音文件识别请求失败");
     }
 
@@ -143,6 +144,7 @@ public class ASRUtil {
             CommonResponse getResponse = client.getCommonResponse(getRequest);
             log.info("识别查询结果：{}", getResponse.getData());
             if (getResponse.getHttpStatus() != 200) {
+                log.info("");
                 throw new RuntimeException("查询录音识别结果失败");
             }
             JSONObject rootObj = JSONUtil.parseObj(getResponse.getData());

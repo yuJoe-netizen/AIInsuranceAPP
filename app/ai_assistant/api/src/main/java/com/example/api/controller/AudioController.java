@@ -30,7 +30,8 @@ public class AudioController {
     @RequestMapping("/startParse")
     public RespVO<Void> startParse() {
 
-        QueryWrapper<CallAudio> last = new QueryWrapper<CallAudio>().eq("is_ai_parsed",YesOrNoEnum.NO.getCode()).last("limit 10");
+        QueryWrapper<CallAudio> last = new QueryWrapper<CallAudio>().eq("is_ai_parsed",YesOrNoEnum.NO.getCode())
+                .or().eq("is_success","0");
         List<CallAudio> callAudios = callAudioMapper.selectList(last);
 //        List<AudioText> audioTexts = new ArrayList<>();
         for (CallAudio callAudio : callAudios) {
@@ -42,11 +43,12 @@ public class AudioController {
             callAudio.setIsAiParsed(YesOrNoEnum.YES.getCode());
             callAudioMapper.updateById(callAudio);
 
-
-            AudioText audioText = new AudioText();
-            audioText.setContent(response.getResult());
-            audioText.setCallId(callAudio.getId());
-            audioTextMapper.insert(audioText);
+            if (response.getIsSuccess()==IsSuccessEnum.SUCCESS){
+                AudioText audioText = new AudioText();
+                audioText.setContent(response.getResult());
+                audioText.setCallId(callAudio.getId());
+                audioTextMapper.insert(audioText);
+            }
 //            audioTexts.add(audioText);
         }
 //        callAudioMapper.updateById(callAudios);
