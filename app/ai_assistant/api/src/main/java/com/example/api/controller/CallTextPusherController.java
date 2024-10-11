@@ -5,11 +5,15 @@ import com.example.api.aliyun.init.FixCallMessagePusher;
 import com.example.api.aliyun.utils.ASRUtil;
 import com.example.api.aliyun.vo.ASRResponse;
 import com.example.common.RespVO;
+import com.example.db.entity.CallAudio;
+import com.example.db.mapper.CallAudioMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/callText")
@@ -21,9 +25,12 @@ public class CallTextPusherController {
 
     private final GetCallTextSetting getCallTextSetting;
 
-    public CallTextPusherController(FixCallMessagePusher fixCallMessagePusher, GetCallTextSetting getCallTextSetting) {
+    private final CallAudioMapper callAudioMapper;
+
+    public CallTextPusherController(FixCallMessagePusher fixCallMessagePusher, GetCallTextSetting getCallTextSetting, CallAudioMapper callAudioMapper) {
         this.fixCallMessagePusher = fixCallMessagePusher;
         this.getCallTextSetting = getCallTextSetting;
+        this.callAudioMapper = callAudioMapper;
     }
 
     @PostMapping("/push")
@@ -51,7 +58,13 @@ public class CallTextPusherController {
     @GetMapping("/getAudioTxt")
     public RespVO<String> getAudioTxt(){
         ASRResponse response = new ASRResponse();
-        ASRUtil.aiParseAudio("https://gw.alipayobjects.com/os/bmw-prod/0574ee2e-f494-45a5-820f-63aee583045a.wav",response);
+        ASRUtil.aiParseAudio("https://fgrecording.oss-cn-shanghai.aliyuncs.com/1/20241008/a94e2c0a-352b-4142-bb68-14d8f4f849dd.mp3",response);
         return RespVO.success(response.getResult());
+    }
+
+
+    @GetMapping("/getAllAudio")
+    public RespVO<List<CallAudio>> getAllAudio(){
+        return RespVO.success(callAudioMapper.selectList(null));
     }
 }

@@ -11,6 +11,7 @@ import com.aliyuncs.http.MethodType;
 import com.example.api.aliyun.config.ASRConfigProperties;
 import com.example.api.aliyun.config.BaseConfig;
 import com.example.api.aliyun.vo.ASRResponse;
+import com.example.common.enums.IsSuccessEnum;
 import com.example.common.util.SpringContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,11 +54,11 @@ public class ASRUtil {
         try {
             String taskId = submitFileTransRequest(configProperties.getAppKey(), fileLink);
             String res = getFileTransResult(taskId);
-            response = new ASRResponse();
+            response.setIsSuccess(IsSuccessEnum.SUCCESS);
             response.setResult(res);
-        } catch (ClientException | InterruptedException e) {
-            response = new ASRResponse();
-            response.setError("0");
+        } catch (Exception e) {
+            response.setIsSuccess(IsSuccessEnum.FAILURE);
+            response.setError(e.getMessage());
             return false;
         }
         return result;

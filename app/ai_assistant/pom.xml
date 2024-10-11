@@ -16,6 +16,8 @@
 		<module>base</module>
 		<module>common</module>
 		<module>api</module>
+		<module>db</module>
+		<module>ai-agent-starter</module>
 	</modules>
 	<name>ai_assistant</name>
 	<description>Demo project for Spring Boot</description>
@@ -39,6 +41,8 @@
 		<rocketmq.version>2.2.3</rocketmq.version>
 		<mq.sdk.version>1.0.3.2</mq.sdk.version>
 		<aliyun.sdk.core.version>3.7.1</aliyun.sdk.core.version>
+		<postgresql.version>42.7.4</postgresql.version>
+		<mybatis.plus.version>3.5.7</mybatis.plus.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -69,11 +73,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -88,11 +87,6 @@
 			<artifactId>alibabacloud-ccc20200701</artifactId>
 			<version>1.0.32</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.apache.rocketmq</groupId>-->
-<!--			<artifactId>rocketmq-client-java</artifactId>-->
-<!--			<version>5.0.7</version>-->
-<!--		</dependency>-->
 
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -142,6 +136,16 @@
 				<groupId>com.aliyun</groupId>
 				<artifactId>aliyun-java-sdk-core</artifactId>
 				<version>${aliyun.sdk.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis.plus.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
