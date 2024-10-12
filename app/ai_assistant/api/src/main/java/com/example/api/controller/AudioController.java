@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.api.aliyun.utils.ASRUtil;
 import com.example.api.aliyun.vo.ASRResponse;
 import com.example.common.RespVO;
+import com.example.common.enums.CallRoleEnum;
 import com.example.common.enums.IsSuccessEnum;
 import com.example.common.enums.YesOrNoEnum;
 import com.example.db.entity.AudioText;
@@ -96,6 +97,7 @@ public class AudioController {
             AudioTextMerge audioTextMerge = BeanUtil.copyProperties(value.get(0), AudioTextMerge.class);
             CallAudio callAudio = callAudioMap.get(value.get(0).getCallId()).get(0);
             audioTextMerge.setCallee(callAudio.getCallee());
+            audioTextMerge.setRoleName(CallRoleEnum.getByCode(audioTextMerge.getRoleId()).getDesc());
             audioTextMerges.add(audioTextMerge);
             AudioTextMerge pre = audioTextMerge;
             for (int i = 1; i < value.size(); i++) {
@@ -104,6 +106,7 @@ public class AudioController {
                     AudioTextMerge audioTextMergeCur = BeanUtil.copyProperties(cur, AudioTextMerge.class);
                     CallAudio ca = callAudioMap.get(cur.getCallId()).get(0);
                     audioTextMergeCur.setCallee(ca.getCallee());
+                    audioTextMergeCur.setRoleName(CallRoleEnum.getByCode(audioTextMergeCur.getRoleId()).getDesc());
                     audioTextMerges.add(audioTextMergeCur);
                     pre=audioTextMergeCur;
                 }else {

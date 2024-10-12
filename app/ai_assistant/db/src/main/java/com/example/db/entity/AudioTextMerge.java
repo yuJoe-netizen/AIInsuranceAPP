@@ -31,6 +31,11 @@ public class AudioTextMerge implements Serializable {
      */
 
     private String roleId;
+
+    /**
+     * 角色名称
+     */
+    private String roleName;
     /**
      * 开始时间
      */
