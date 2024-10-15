@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(scanBasePackages = "com.example")
 @EnableFeignClients
-@MapperScan(basePackages = "com.example")
+@MapperScan(basePackages = "com.example.db.mapper")
 public class AiAgentStarter {
     public static void main(String[] args) {
         SpringApplication.run(AiAgentStarter.class, args);

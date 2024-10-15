@@ -1,11 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-
+import loginView from '@/views/loginView.vue'
+import mainView from '@/views/mainView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
+      name: 'login',
+      component: loginView
+    },
+    {
+      path: '/main',
+      name: 'main',
+      component: mainView,
+      children:[
+        {
+          path:'',
+          name:'custList',
+          component:()=>import('../views/CustList.vue')
+        }
+      ]
+    },
+    {
+      path: '/connectCust',
       name: 'connectCust',
       component:()=>import('../views/connectCust.vue')
     },

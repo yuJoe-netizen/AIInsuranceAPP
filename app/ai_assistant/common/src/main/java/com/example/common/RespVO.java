@@ -10,8 +10,8 @@ public class RespVO<T> {
 
     public static int SUCCESS_CODE = 200;
     public static String SUCCESS_MSG = "操作成功";
-    public static int FAIL_CODE = 200;
-    public static String FAIL_MSG = "操作成功";
+    public static int FAIL_CODE = 500;
+    public static String FAIL_MSG = "服务异常";
 
     public static <T> RespVO<T> success(T data) {
         RespVO<T> respVO = new RespVO<>();
